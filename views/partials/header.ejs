@@ -1,0 +1,47 @@
+<header class="navbar">
+  <div class="container nav-wrapper">
+
+    <!-- Logo -->
+    <div class="logo">
+      <a href="/">
+        <img src="/images/logo/logo.png" alt="logo" />
+      </a>
+    </div>
+
+    <!-- Menu -->
+    <nav class="nav-menu">
+      <a href="/">Trang chủ</a>
+      <a href="/movie">Phim</a>
+      <a href="/showtime">Lịch chiếu</a>
+      <a href="/promotion">Khuyến mãi</a>
+    </nav>
+
+    <!-- Actions -->
+    <div class="nav-actions">
+      <% if (sessionUser) { %>
+
+        <div class="nav-user">
+          <span class="nav-user-name">
+            Xin chào, <%= sessionUser.fullName %>
+          </span>
+
+          <!-- Dropdown -->
+          <div class="nav-user-dropdown">
+            <a href="/profile">👤 Thông tin cá nhân</a>
+
+            <% if (sessionUser.role === "ADMIN") { %>
+              <a href="/admin/dashboard">⚙️ Quản trị</a>
+            <% } %>
+
+            <a href="/auth/logout">🚪 Đăng xuất</a>
+          </div>
+        </div>
+
+      <% } else { %>
+        <a href="/auth/login" class="btn btn-outline">Đăng nhập</a>
+        <a href="/auth/register" class="btn btn-outline">Đăng ký</a>
+      <% } %>
+    </div>
+
+  </div>
+</header>

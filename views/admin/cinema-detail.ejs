@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "cinemas" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Chi tiết rạp phim",
+        pageDescription: "Xem thông tin chi tiết rạp",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-page-actions">
+          <a href="/admin/cinemas" class="admin-btn admin-btn-outline">← Quay lại</a>
+          <a href="/admin/cinemas/<%= cinema.id %>/edit" class="admin-btn admin-btn-primary">Sửa rạp</a>
+        </div>
+
+        <div class="admin-card">
+          <div class="cinema-detail-grid">
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Tên rạp</div>
+              <div class="cinema-detail-value"><%= cinema.name %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Thành phố</div>
+              <div class="cinema-detail-value"><%= cinema.city %></div>
+            </div>
+
+            <div class="cinema-detail-item cinema-detail-item-full">
+              <div class="cinema-detail-label">Địa chỉ</div>
+              <div class="cinema-detail-value"><%= cinema.address %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Số phòng</div>
+              <div class="cinema-detail-value"><%= cinema.totalRooms %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Hotline</div>
+              <div class="cinema-detail-value"><%= cinema.phone %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Trạng thái</div>
+              <div class="cinema-detail-value">
+                <% if (cinema.status === "ACTIVE") { %>
+                  <span class="admin-badge admin-badge-success">Hoạt động</span>
+                <% } else { %>
+                  <span class="admin-badge admin-badge-danger">Tạm ngưng</span>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

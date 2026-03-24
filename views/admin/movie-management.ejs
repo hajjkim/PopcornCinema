@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "movies" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Quản lý phim",
+        pageDescription: "Quản lý danh sách phim trong hệ thống",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-page-actions">
+          <a href="/admin/movies/create" class="admin-btn admin-btn-primary">+ Thêm phim</a>
+        </div>
+
+        <div class="admin-card">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Poster</th>
+                <th>Tên phim</th>
+                <th>Thể loại</th>
+                <th>Thời lượng</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (movies && movies.length > 0) { %>
+                <% movies.forEach(movie => { %>
+                  <tr>
+                    <td><%= movie.id %></td>
+                    <td>
+                      <img class="admin-movie-thumb" src="<%= movie.poster_url || '/images/movies/default.jpg' %>" alt="<%= movie.title %>">
+                    </td>
+                    <td><%= movie.title %></td>
+                    <td><%= movie.genre %></td>
+                    <td><%= movie.duration %> phút</td>
+                    <td><%= movie.status %></td>
+                    <td>
+                        <div class="admin-table-actions">
+                            <a href="/admin/movies/<%= movie.id %>" class="admin-btn admin-btn-sm admin-btn-outline">Chi tiết</a>
+                            <a href="/admin/movies/<%= movie.id %>/edit" class="admin-btn admin-btn-sm admin-btn-outline">Sửa</a>
+
+                            <form action="/admin/movies/<%= movie.id %>/delete" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa phim này?')">
+                            <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">
+                                Xóa
+                            </button>
+                            </form>
+                        </div>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="7" class="admin-empty">Chưa có phim nào</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

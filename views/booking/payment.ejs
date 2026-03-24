@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> - <%= movie.title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/booking.css" />
+</head>
+<body class="page-booking page-booking-payment">
+  <%- include("../partials/header") %>
+
+  <main class="booking-page">
+    <div class="container">
+      <div class="payment-layout">
+        <section class="payment-main">
+          <div class="payment-card">
+            <h2>Khuyến mãi</h2>
+
+            <div class="promo-apply-row">
+              <select id="promotionSelect" class="payment-select">
+                <% promotions.forEach((promo, index) => { %>
+                  <option
+                    value="<%= promo.discount %>"
+                    <%= index === 0 ? "selected" : "" %>
+                  >
+                    <%= promo.label %>
+                  </option>
+                <% }) %>
+              </select>
+
+              <button type="button" class="btn btn-primary payment-apply-btn" id="applyPromotionBtn">
+                Áp dụng
+              </button>
+            </div>
+          </div>
+
+          <div class="payment-card">
+            <h2>Phương thức thanh toán</h2>
+
+            <label class="payment-method-item">
+              <input type="radio" name="paymentMethod" checked />
+              <span>Thanh toán mã QR với ứng dụng di động</span>
+            </label>
+          </div>
+        </section>
+
+        <aside class="payment-sidebar">
+          <div class="payment-summary-card">
+            <div class="payment-movie-poster">
+              <img src="<%= movie.poster %>" alt="<%= movie.title %>" />
+            </div>
+
+            <div class="payment-movie-info">
+              <h3><%= movie.title %></h3>
+              <span class="movie-age-tag"><%= movie.ageRating %></span>
+
+              <div class="payment-meta-list">
+                <p>Rạp: <%= bookingInfo.cinema %></p>
+                <p>Phòng: <%= bookingInfo.room %></p>
+                <p>Suất: <%= bookingInfo.showtime %></p>
+                <p>Ghế: <span id="paymentSeats"><%= bookingInfo.seats.join(", ") %></span></p>
+              </div>
+            </div>
+
+            <div class="payment-price-box">
+              <div class="payment-price-row">
+                <span>Tiền ghế:</span>
+                <strong id="ticketTotal"><%= bookingInfo.ticketTotal.toLocaleString("vi-VN") %> đ</strong>
+              </div>
+
+              <div class="payment-price-row">
+                <span>Combo:</span>
+                <strong id="comboTotal"><%= bookingInfo.comboTotal.toLocaleString("vi-VN") %> đ</strong>
+              </div>
+
+              <div class="payment-price-row">
+                <span>Giảm giá:</span>
+                <strong id="discountValue"><%= bookingInfo.discount.toLocaleString("vi-VN") %> đ</strong>
+              </div>
+
+              <div class="payment-price-row total-row">
+                <span>Tổng cộng:</span>
+                <strong id="grandTotal"><%= total.toLocaleString("vi-VN") %> đ</strong>
+              </div>
+            </div>
+
+            <div class="payment-actions">
+              <a href="/booking/showtime/<%= movie._id %>" class="payment-back-link">Quay lại</a>
+                <a href="/booking/qr-payment/<%= movie._id %>" class="btn btn-primary payment-next-btn">Tiếp tục</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <%- include("../partials/footer") %>
+  <script src="/js/booking-payment.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <link rel="stylesheet" href="/css/home.css" />
+</head>
+<body class="page-home">
+ <%- include("partials/header") %>
+
+  <main>
+    <!-- Hero Banner -->
+    <!-- <section class="hero">
+      <div class="container hero-content">
+        <div class="hero-text">
+          <span class="tag">Đang hot</span>
+          <h1>Trải nghiệm điện ảnh đỉnh cao tại Popcorn Cinema</h1>
+          <p>Đặt vé nhanh, chọn ghế dễ, ưu đãi hấp dẫn mỗi tuần.</p>
+          <div class="hero-buttons">
+            <a href="/movie" class="btn btn-primary">Đặt vé ngay</a>
+            <a href="/promotion" class="btn btn-outline">Xem ưu đãi</a>
+          </div>
+        </div>
+
+        <div class="hero-poster">
+          <img src="/images/banners/banner1.jpg" alt="Banner phim" />
+        </div>
+      </div>
+    </section> -->
+<section class="hero">
+  <div class="container hero-content">
+    <div class="hero-text">
+      <span class="hero-badge">Đang hot</span>
+      <h1>Trải nghiệm điện ảnh đỉnh cao tại Popcorn Cinema</h1>
+      <p>Đặt vé nhanh, chọn ghế dễ, ưu đãi hấp dẫn mỗi tuần.</p>
+
+      <div class="hero-buttons">
+        <a href="/movie" class="btn btn-primary">Đặt vé ngay</a>
+        <a href="/promotion" class="btn btn-outline">Xem ưu đãi</a>
+      </div>
+    </div>
+
+    <div class="hero-slider">
+      <div class="hero-slides">
+        <img src="/images/banners/banner1.jpg" alt="Banner 1" class="hero-slide active">
+        <img src="/images/banners/banner2.jpg" alt="Banner 2" class="hero-slide">
+        <img src="/images/banners/banner3.jpg" alt="Banner 3" class="hero-slide">
+        <img src="/images/banners/banner4.jpg" alt="Banner 4" class="hero-slide">
+      </div>
+
+      <button class="hero-nav prev" type="button">&#10094;</button>
+      <button class="hero-nav next" type="button">&#10095;</button>
+
+      <div class="hero-dots">
+        <span class="hero-dot active" data-slide="0"></span>
+        <span class="hero-dot" data-slide="1"></span>
+        <span class="hero-dot" data-slide="2"></span>
+        <span class="hero-dot" data-slide="3"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Phim đang chiếu -->
+    <section class="movie-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Phim đang chiếu</h2>
+          <a href="/movie">Xem tất cả</a>
+        </div>
+
+        <div class="movie-grid">
+          <% if (nowShowing && nowShowing.length > 0) { %>
+            <% nowShowing.forEach(movie => { %>
+              <div class="movie-card">
+                <div class="movie-thumb">
+                  <img src="<%= movie.poster || '/images/movies/default.jpg' %>" alt="<%= movie.title %>">
+                </div>
+                <div class="movie-info">
+                  <h3><%= movie.title %></h3>
+                  <p><%= movie.genre || 'Đang cập nhật thể loại' %></p>
+                  <div class="movie-actions">
+                    <a href="/movie/<%= movie._id %>" class="btn btn-small btn-outline">Chi tiết</a>
+                    <a href="/booking/showtime/<%= movie._id %>" class="btn btn-small btn-primary">Đặt vé</a>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <p class="empty-text">Chưa có phim đang chiếu.</p>
+          <% } %>
+        </div>
+      </div>
+    </section>
+
+    <!-- Phim sắp chiếu -->
+    <section class="movie-section alt-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Phim sắp chiếu</h2>
+          <a href="/movie">Xem tất cả</a>
+        </div>
+
+        <div class="movie-grid">
+          <% if (comingSoon && comingSoon.length > 0) { %>
+            <% comingSoon.forEach(movie => { %>
+              <div class="movie-card">
+                <div class="movie-thumb">
+                  <img src="<%= movie.poster || '/images/movies/default.jpg' %>" alt="<%= movie.title %>">
+                </div>
+                <div class="movie-info">
+                  <h3><%= movie.title %></h3>
+                  <p><%= movie.genre || 'Đang cập nhật thể loại' %></p>
+                  <div class="movie-actions">
+                    <a href="/movie/<%= movie._id %>" class="btn btn-small btn-outline">Chi tiết</a>
+                    <button class="btn btn-small btn-disabled">Sắp mở bán</button>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <p class="empty-text">Chưa có phim sắp chiếu.</p>
+          <% } %>
+        </div>
+      </div>
+    </section>
+
+    <!-- Khuyến mãi -->
+    <section class="promotion-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Khuyến mãi nổi bật</h2>
+          <a href="/promotion">Xem tất cả</a>
+        </div>
+
+        <div class="promo-grid">
+          <% if (promotions && promotions.length > 0) { %>
+            <% promotions.forEach(item => { %>
+              <div class="promo-card">
+                <img src="<%= item.image || '/images/promotions/default.jpg' %>" alt="<%= item.title %>">
+                <div class="promo-info">
+                  <h3><%= item.title %></h3>
+                  <p><%= item.description || 'Ưu đãi hấp dẫn dành cho khách hàng.' %></p>
+                </div>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <p class="empty-text">Hiện chưa có khuyến mãi nào.</p>
+          <% } %>
+        </div>
+      </div>
+    </section>
+  </main>
+
+ <%- include("partials/footer") %>
+
+<script src="/js/home.js"></script>
+</body>
+</html>

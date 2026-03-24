@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/auth.css" />
+</head>
+<body class="page-auth">
+  <main class="auth-page">
+    <div class="auth-layout">
+      <div class="auth-left">
+        <div class="auth-brand">Popcorn Cinema</div>
+        <h1>Chào mừng!</h1>
+        <p>Tạo tài khoản để đặt vé nhanh hơn, lưu lịch sử giao dịch và nhận ưu đãi thành viên.</p>
+        <img src="/images/logo/logo.png" alt="Popcorn Cinema" class="auth-logo-image" />
+      </div>
+
+      <div class="auth-right">
+        <div class="auth-card">
+          <h2>Đăng ký</h2>
+          <p>Tạo tài khoản mới tại Popcorn Cinema</p>
+
+          <% if (error) { %>
+            <div class="auth-error"><%= error %></div>
+          <% } %>
+
+          <form action="/auth/register" method="POST" class="auth-form">
+            <div class="form-group">
+              <label for="fullName">Họ và tên</label>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                placeholder="Nhập họ và tên"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Nhập email"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Mật khẩu</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Tạo mật khẩu"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Xác nhận mật khẩu</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Nhập lại mật khẩu"
+                required
+              />
+            </div>
+
+            <button type="submit" class="auth-submit-btn">Đăng ký</button>
+          </form>
+
+          <div class="auth-switch">
+            Đã có tài khoản?
+            <a href="/auth/login">Đăng nhập ngay</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "movies" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Chi tiết phim",
+        pageDescription: "Xem thông tin chi tiết phim",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-page-actions">
+          <a href="/admin/movies" class="admin-btn admin-btn-outline">← Quay lại</a>
+          <a href="/admin/movies/<%= movie.id %>/edit" class="admin-btn admin-btn-primary">Sửa phim</a>
+        </div>
+
+        <div class="admin-card movie-detail-layout">
+          <div class="movie-detail-poster">
+            <img src="<%= movie.poster_url || '/images/movies/default.jpg' %>" alt="<%= movie.title %>">
+          </div>
+
+          <div class="movie-detail-info">
+            <h2><%= movie.title %></h2>
+            <p><strong>Thể loại:</strong> <%= movie.genre %></p>
+            <p><strong>Thời lượng:</strong> <%= movie.duration %> phút</p>
+            <p><strong>Ngày khởi chiếu:</strong> <%= movie.release_date %></p>
+            <p><strong>Phân loại:</strong> <%= movie.age_rating %></p>
+            <p><strong>Đạo diễn:</strong> <%= movie.director %></p>
+            <p><strong>Diễn viên:</strong> <%= movie.actors %></p>
+            <p><strong>Ngôn ngữ:</strong> <%= movie.language %></p>
+            <p><strong>Phụ đề:</strong> <%= movie.subtitle %></p>
+            <p><strong>Trailer:</strong> <a href="<%= movie.trailer_url %>" target="_blank"><%= movie.trailer_url %></a></p>
+            <p><strong>Trạng thái:</strong>
+              <% if (movie.status === "NOW_SHOWING") { %>
+                <span class="admin-badge admin-badge-success">Đang chiếu</span>
+              <% } else { %>
+                <span class="admin-badge admin-badge-warning">Sắp chiếu</span>
+              <% } %>
+            </p>
+
+            <div class="movie-detail-description">
+              <h3>Mô tả</h3>
+              <p><%= movie.description %></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

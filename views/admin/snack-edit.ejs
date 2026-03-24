@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "snacks" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Sửa bắp nước",
+        pageDescription: "Cập nhật thông tin món",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-card">
+          <form action="/admin/snacks/<%= snack.id %>/edit" method="POST" class="admin-form-grid">
+            <div class="admin-form-group">
+              <label>Tên món</label>
+              <input type="text" name="name" class="admin-form-input" value="<%= snack.name %>" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label>Loại</label>
+              <select name="type" class="admin-form-input" required>
+                <option value="COMBO" <%= snack.type === 'COMBO' ? 'selected' : '' %>>Combo</option>
+                <option value="POPCORN" <%= snack.type === 'POPCORN' ? 'selected' : '' %>>Bắp</option>
+                <option value="DRINK" <%= snack.type === 'DRINK' ? 'selected' : '' %>>Nước</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Giá</label>
+              <input type="number" name="price" class="admin-form-input" value="<%= snack.price %>" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label>Trạng thái</label>
+              <select name="status" class="admin-form-input" required>
+                <option value="ACTIVE" <%= snack.status === 'ACTIVE' ? 'selected' : '' %>>Đang bán</option>
+                <option value="INACTIVE" <%= snack.status === 'INACTIVE' ? 'selected' : '' %>>Ngưng bán</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group" style="grid-column: 1 / -1;">
+                <label>Ảnh hiện tại</label>
+                <img
+                    src="<%= snack.image %>"
+                    alt="<%= snack.name %>"
+                    style="width:120px;height:120px;object-fit:cover;border-radius:12px;margin-bottom:10px;"
+                />
+
+                <label>Chọn ảnh mới</label>
+                <input type="file" name="image" accept="image/*" class="admin-form-input" />
+                </div>
+
+            <div class="admin-form-group" style="grid-column: 1 / -1;">
+              <label>Mô tả</label>
+              <textarea name="description" rows="4" class="admin-form-input" required><%= snack.description %></textarea>
+            </div>
+
+            <div class="admin-form-actions" style="grid-column: 1 / -1;">
+              <a href="/admin/snacks/<%= snack.id %>" class="admin-btn admin-btn-outline">Hủy</a>
+              <button type="submit" class="admin-btn admin-btn-primary">Cập nhật</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

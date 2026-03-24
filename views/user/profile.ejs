@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .profile-page {
+      background: #081f4d;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .profile-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .profile-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .profile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .profile-title {
+      margin: 0;
+      font-size: 30px;
+      color: #0f172a;
+    }
+
+    .profile-subtitle {
+      margin: 6px 0 0;
+      color: #64748b;
+      font-size: 15px;
+    }
+
+    .profile-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .profile-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .profile-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .profile-value {
+      font-size: 16px;
+      color: #0f172a;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .profile-actions {
+      margin-top: 28px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .profile-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .profile-btn-primary {
+      background: #f4b544;
+      color: #081f4d;
+    }
+
+    .profile-btn-outline {
+      border: 1px solid #cbd5e1;
+      color: #0f172a;
+      background: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-card {
+        padding: 22px;
+      }
+
+      .profile-title {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <%- include("../partials/header") %>
+
+  <main class="profile-page">
+    <div class="profile-container">
+      <div class="profile-card">
+        <div class="profile-header">
+          <div>
+            <h1 class="profile-title">Thông tin cá nhân</h1>
+            <p class="profile-subtitle">Quản lý thông tin tài khoản của bạn</p>
+          </div>
+
+          <span class="profile-badge">
+            <%= user.role === "ADMIN" ? "Quản trị viên" : "Khách hàng" %>
+          </span>
+        </div>
+
+        <div class="profile-grid">
+          <div class="profile-item">
+            <div class="profile-label">Họ và tên</div>
+            <div class="profile-value"><%= user.full_name %></div>
+          </div>
+
+          <div class="profile-item">
+            <div class="profile-label">Email</div>
+            <div class="profile-value"><%= user.email %></div>
+          </div>
+
+          <div class="profile-item">
+            <div class="profile-label">Số điện thoại</div>
+            <div class="profile-value"><%= user.phone || "Chưa cập nhật" %></div>
+          </div>
+
+          <div class="profile-item">
+            <div class="profile-label">Trạng thái</div>
+            <div class="profile-value">
+              <%= user.status === "ACTIVE" ? "Đang hoạt động" : "Đã khóa" %>
+            </div>
+          </div>
+
+          <div class="profile-item">
+            <div class="profile-label">Vai trò</div>
+            <div class="profile-value"><%= user.role %></div>
+          </div>
+
+          <div class="profile-item">
+            <div class="profile-label">Ngày tạo tài khoản</div>
+            <div class="profile-value">
+              <%= user.created_at ? new Date(user.created_at).toLocaleDateString("vi-VN") : "Không có dữ liệu" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <a href="/" class="profile-btn profile-btn-outline">← Về trang chủ</a>
+          <a href="/auth/logout" class="profile-btn profile-btn-primary">Đăng xuất</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

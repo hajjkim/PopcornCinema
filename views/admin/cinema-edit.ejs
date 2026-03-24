@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "cinemas" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Sửa rạp phim",
+        pageDescription: "Cập nhật thông tin rạp",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-card">
+          <form class="admin-form-grid" method="POST" action="/admin/cinemas/<%= cinema.id %>/edit">
+            <div class="admin-form-group">
+              <label>Tên rạp</label>
+              <input type="text" name="name" value="<%= cinema.name %>" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Thành phố</label>
+              <input type="text" name="city" value="<%= cinema.city %>" required>
+            </div>
+
+            <div class="admin-form-group admin-form-group-full">
+              <label>Địa chỉ</label>
+              <input type="text" name="address" value="<%= cinema.address %>" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Số phòng</label>
+              <input type="number" name="totalRooms" min="1" value="<%= cinema.totalRooms %>" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Hotline</label>
+              <input type="text" name="phone" value="<%= cinema.phone %>" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Trạng thái</label>
+              <select name="status" required>
+                <option value="ACTIVE" <%= cinema.status === "ACTIVE" ? "selected" : "" %>>Hoạt động</option>
+                <option value="INACTIVE" <%= cinema.status === "INACTIVE" ? "selected" : "" %>>Tạm ngưng</option>
+              </select>
+            </div>
+
+            <div class="admin-form-actions">
+              <a href="/admin/cinemas/<%= cinema.id %>" class="admin-btn admin-btn-outline">Hủy</a>
+              <button type="submit" class="admin-btn admin-btn-primary">Cập nhật</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

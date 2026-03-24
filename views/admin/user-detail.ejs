@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "users" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Chi tiết người dùng",
+        pageDescription: "Thông tin đầy đủ của tài khoản",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-card">
+          <div class="cinema-detail-grid">
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">ID</div>
+              <div class="cinema-detail-value"><%= user.id %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Họ tên</div>
+              <div class="cinema-detail-value"><%= user.fullName || '' %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Email</div>
+              <div class="cinema-detail-value"><%= user.email || '' %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Số điện thoại</div>
+              <div class="cinema-detail-value"><%= user.phone || '' %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Vai trò</div>
+              <div class="cinema-detail-value"><%= user.role || '' %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Trạng thái</div>
+              <div class="cinema-detail-value"><%= user.status || '' %></div>
+            </div>
+
+            <div class="cinema-detail-item cinema-detail-item-full">
+              <div class="cinema-detail-label">Ngày tạo</div>
+              <div class="cinema-detail-value"><%= user.createdAt || '' %></div>
+            </div>
+          </div>
+
+          <div class="admin-detail-actions">
+            <a href="/admin/users/<%= user.id %>/edit" class="admin-btn admin-btn-primary">Sửa</a>
+            <a href="/admin/users" class="admin-btn admin-btn-outline">Quay lại</a>
+
+            <form action="/admin/users/<%= user.id %>/delete" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa người dùng này?')">
+              <button type="submit" class="admin-btn admin-btn-danger">Xóa</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

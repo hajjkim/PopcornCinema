@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "promotions" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Quản lý khuyến mãi",
+        pageDescription: "Quản lý các chương trình khuyến mãi trong hệ thống",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-page-actions">
+          <a href="/admin/promotions/create" class="admin-btn admin-btn-primary">+ Thêm khuyến mãi</a>
+        </div>
+
+        <div class="admin-card">
+          <form class="admin-filter-form admin-promotion-filter" method="GET" action="/admin/promotions">
+            <div class="admin-form-group">
+              <label for="keyword">Từ khóa</label>
+              <input
+                type="text"
+                id="keyword"
+                name="keyword"
+                placeholder="Tên hoặc mã khuyến mãi..."
+                value="<%= keyword || '' %>"
+              />
+            </div>
+
+            <div class="admin-form-group">
+              <label for="discountType">Loại giảm giá</label>
+              <select id="discountType" name="discountType">
+                <option value="">Tất cả</option>
+                <option value="PERCENT" <%= discountType === 'PERCENT' ? 'selected' : '' %>>Phần trăm</option>
+                <option value="AMOUNT" <%= discountType === 'AMOUNT' ? 'selected' : '' %>>Tiền mặt</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label for="status">Trạng thái</label>
+              <select id="status" name="status">
+                <option value="">Tất cả</option>
+                <option value="ACTIVE" <%= status === 'ACTIVE' ? 'selected' : '' %>>Hoạt động</option>
+                <option value="INACTIVE" <%= status === 'INACTIVE' ? 'selected' : '' %>>Không hoạt động</option>
+              </select>
+            </div>
+
+            <div class="admin-filter-actions">
+              <button type="submit" class="admin-btn admin-btn-primary">Lọc</button>
+              <a href="/admin/promotions" class="admin-btn admin-btn-outline">Đặt lại</a>
+            </div>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Poster</th>
+                  <th>Tên khuyến mãi</th>
+                  <th>Mã</th>
+                  <th>Loại</th>
+                  <th>Giá trị</th>
+                  <th>Thời gian</th>
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% if (promotions && promotions.length > 0) { %>
+                  <% promotions.forEach(item => { %>
+                    <tr>
+                      <td><%= item.id %></td>
+                      <td>
+                        <img
+                          src="<%= item.poster %>"
+                          alt="<%= item.title %>"
+                          class="admin-promotion-thumb"
+                        />
+                      </td>
+                      <td><strong><%= item.title %></strong></td>
+                      <td><%= item.code %></td>
+                      <td>
+                        <%= item.discountType === "PERCENT" ? "Phần trăm" : "Tiền mặt" %>
+                      </td>
+                      <td>
+                        <%= item.discountType === "PERCENT"
+                          ? item.discountValue + "%"
+                          : Number(item.discountValue).toLocaleString("vi-VN") + "đ" %>
+                      </td>
+                      <td><%= item.startDate %> - <%= item.endDate %></td>
+                      <td>
+                        <% if (item.status === "ACTIVE") { %>
+                          <span class="admin-badge admin-badge-success">Hoạt động</span>
+                        <% } else { %>
+                          <span class="admin-badge admin-badge-secondary">Không hoạt động</span>
+                        <% } %>
+                      </td>
+                      <td>
+                        <div class="admin-table-actions">
+                          <a href="/admin/promotions/<%= item.id %>" class="admin-btn admin-btn-sm admin-btn-outline">Chi tiết</a>
+                          <a href="/admin/promotions/<%= item.id %>/edit" class="admin-btn admin-btn-sm admin-btn-outline">Sửa</a>
+                          <form action="/admin/promotions/<%= item.id %>/delete" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa khuyến mãi này?')">
+                            <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Xóa</button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="9" class="admin-empty">Chưa có khuyến mãi nào</td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

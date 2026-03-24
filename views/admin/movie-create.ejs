@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "movies" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Thêm phim",
+        pageDescription: "Tạo mới phim trong hệ thống",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-card">
+          <form class="admin-form-grid" method="POST" action="/admin/movies/create">
+            <div class="admin-form-group">
+              <label>Tên phim</label>
+              <input type="text" name="title" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Thể loại</label>
+              <input type="text" name="genre" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Thời lượng (phút)</label>
+              <input type="number" name="duration" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Ngày khởi chiếu</label>
+              <input type="date" name="release_date" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Trạng thái</label>
+              <select name="status" required>
+                <option value="NOW_SHOWING">Đang chiếu</option>
+                <option value="COMING_SOON">Sắp chiếu</option>
+              </select>
+            </div>
+
+           <div class="admin-form-group">
+            <label>Poster</label>
+            <input type="file" name="poster" accept="image/*">
+            </div>
+
+            <div class="admin-form-group">
+              <label>Phân loại</label>
+              <input type="text" name="age_rating" placeholder="Ví dụ: C13, P">
+            </div>
+
+            <div class="admin-form-group">
+              <label>Đạo diễn</label>
+              <input type="text" name="director">
+            </div>
+
+            <div class="admin-form-group">
+              <label>Diễn viên</label>
+              <input type="text" name="actors">
+            </div>
+
+            <div class="admin-form-group">
+              <label>Ngôn ngữ</label>
+              <input type="text" name="language">
+            </div>
+
+            <div class="admin-form-group">
+              <label>Phụ đề</label>
+              <input type="text" name="subtitle">
+            </div>
+
+            <!-- <div class="admin-form-group">
+              <label>Trailer URL</label>
+              <input type="text" name="trailer_url">
+            </div> -->
+
+            <div class="admin-form-group admin-form-group-full">
+              <label>Mô tả</label>
+              <textarea name="description" rows="5"></textarea>
+            </div>
+
+            <div class="admin-form-actions">
+              <a href="/admin/movies" class="admin-btn admin-btn-outline">Hủy</a>
+              <button type="submit" class="admin-btn admin-btn-primary">Lưu phim</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

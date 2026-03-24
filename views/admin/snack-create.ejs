@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "snacks" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Thêm bắp nước",
+        pageDescription: "Tạo món mới cho quầy bắp nước",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-card">
+          <form action="/admin/snacks/create" method="POST" class="admin-form-grid">
+            <div class="admin-form-group">
+              <label>Tên món</label>
+              <input type="text" name="name" class="admin-form-input" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label>Loại</label>
+              <select name="type" class="admin-form-input" required>
+                <option value="COMBO">Combo</option>
+                <option value="POPCORN">Bắp</option>
+                <option value="DRINK">Nước</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Giá</label>
+              <input type="number" name="price" class="admin-form-input" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label>Trạng thái</label>
+              <select name="status" class="admin-form-input" required>
+                <option value="ACTIVE">Đang bán</option>
+                <option value="INACTIVE">Ngưng bán</option>
+              </select>
+            </div>
+
+           <div class="admin-form-group" style="grid-column: 1 / -1;">
+            <label>Chọn ảnh</label>
+            <input type="file" name="image" accept="image/*" class="admin-form-input" />
+            </div>
+
+            <div class="admin-form-group" style="grid-column: 1 / -1;">
+              <label>Mô tả</label>
+              <textarea name="description" rows="4" class="admin-form-input" required></textarea>
+            </div>
+
+            <div class="admin-form-actions" style="grid-column: 1 / -1;">
+              <a href="/admin/snacks" class="admin-btn admin-btn-outline">Quay lại</a>
+              <button type="submit" class="admin-btn admin-btn-primary">Lưu món</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

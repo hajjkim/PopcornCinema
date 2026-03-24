@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "orders" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Chi tiết đơn hàng",
+        pageDescription: "Xem thông tin chi tiết đơn hàng",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-page-actions">
+          <a href="/admin/orders" class="admin-btn admin-btn-outline">← Quay lại</a>
+          <a href="/admin/orders/<%= order.id %>/edit" class="admin-btn admin-btn-primary">Sửa đơn hàng</a>
+        </div>
+
+        <div class="admin-card">
+          <div class="cinema-detail-grid">
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Mã đơn</div>
+              <div class="cinema-detail-value"><%= order.orderCode %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Khách hàng</div>
+              <div class="cinema-detail-value"><%= order.customerName %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Email</div>
+              <div class="cinema-detail-value"><%= order.email %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Số điện thoại</div>
+              <div class="cinema-detail-value"><%= order.phone %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Phim</div>
+              <div class="cinema-detail-value"><%= order.movieTitle %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Rạp</div>
+              <div class="cinema-detail-value"><%= order.cinemaName %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Ngày chiếu</div>
+              <div class="cinema-detail-value"><%= order.showDate %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Giờ chiếu</div>
+              <div class="cinema-detail-value"><%= order.showTime %></div>
+            </div>
+
+            <div class="cinema-detail-item cinema-detail-item-full">
+              <div class="cinema-detail-label">Ghế</div>
+              <div class="cinema-detail-value"><%= order.seats.join(", ") %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Tổng tiền</div>
+              <div class="cinema-detail-value"><%= order.totalAmount.toLocaleString("vi-VN") %>đ</div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Phương thức thanh toán</div>
+              <div class="cinema-detail-value"><%= order.paymentMethod %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Trạng thái</div>
+              <div class="cinema-detail-value">
+                <% if (order.status === "PAID") { %>
+                  <span class="admin-badge admin-badge-success">Đã thanh toán</span>
+                <% } else if (order.status === "PENDING") { %>
+                  <span class="admin-badge admin-badge-warning">Chờ thanh toán</span>
+                <% } else { %>
+                  <span class="admin-badge admin-badge-danger">Đã hủy</span>
+                <% } %>
+              </div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Thời gian tạo</div>
+              <div class="cinema-detail-value"><%= order.createdAt %></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

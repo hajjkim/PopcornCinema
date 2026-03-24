@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "users" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Quản lý người dùng",
+        pageDescription: "Quản lý tài khoản người dùng trong hệ thống",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-page-actions">
+          <a href="/admin/users/create" class="admin-btn admin-btn-primary">+ Thêm người dùng</a>
+        </div>
+
+        <div class="admin-card">
+          <form class="admin-filter-form admin-user-filter" method="GET" action="/admin/users">
+            <div class="admin-form-group">
+              <label for="keyword">Từ khóa</label>
+              <input
+                type="text"
+                id="keyword"
+                name="keyword"
+                placeholder="Tên, email, số điện thoại..."
+                value="<%= keyword || '' %>"
+              />
+            </div>
+
+            <div class="admin-form-group">
+              <label for="role">Vai trò</label>
+              <select id="role" name="role">
+                <option value="">Tất cả</option>
+                <option value="ADMIN" <%= role === 'ADMIN' ? 'selected' : '' %>>Admin</option>
+                <option value="STAFF" <%= role === 'STAFF' ? 'selected' : '' %>>Nhân viên</option>
+                <option value="CUSTOMER" <%= role === 'CUSTOMER' ? 'selected' : '' %>>Khách hàng</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label for="status">Trạng thái</label>
+              <select id="status" name="status">
+                <option value="">Tất cả</option>
+                <option value="ACTIVE" <%= status === 'ACTIVE' ? 'selected' : '' %>>Hoạt động</option>
+                <option value="INACTIVE" <%= status === 'INACTIVE' ? 'selected' : '' %>>Không hoạt động</option>
+                <option value="BLOCKED" <%= status === 'BLOCKED' ? 'selected' : '' %>>Bị khóa</option>
+              </select>
+            </div>
+
+            <div class="admin-filter-actions">
+              <button type="submit" class="admin-btn admin-btn-primary">Lọc</button>
+              <a href="/admin/users" class="admin-btn admin-btn-outline">Đặt lại</a>
+            </div>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Họ tên</th>
+                  <th>Email</th>
+                  <th>Số điện thoại</th>
+                  <th>Vai trò</th>
+                  <th>Trạng thái</th>
+                  <th>Ngày tạo</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% if (users && users.length > 0) { %>
+                  <% users.forEach(item => { %>
+                    <tr>
+                      <td><%= item.id %></td>
+                      <td>
+                        <div class="admin-primary-cell">
+                          <strong><%= item.fullName %></strong>
+                        </div>
+                      </td>
+                      <td><%= item.email %></td>
+                      <td><%= item.phone %></td>
+                      <td>
+                        <% if (item.role === "ADMIN") { %>
+                          <span class="admin-badge admin-badge-danger">Admin</span>
+                        <% } else if (item.role === "STAFF") { %>
+                          <span class="admin-badge admin-badge-warning">Nhân viên</span>
+                        <% } else { %>
+                          <span class="admin-badge admin-badge-info">Khách hàng</span>
+                        <% } %>
+                      </td>
+                      <td>
+                        <% if (item.status === "ACTIVE") { %>
+                          <span class="admin-badge admin-badge-success">Hoạt động</span>
+                        <% } else if (item.status === "INACTIVE") { %>
+                          <span class="admin-badge admin-badge-secondary">Không hoạt động</span>
+                        <% } else { %>
+                          <span class="admin-badge admin-badge-danger">Bị khóa</span>
+                        <% } %>
+                      </td>
+                      <td><%= item.createdAt || '' %></td>
+                      <td>
+                        <div class="admin-table-actions">
+                          <a href="/admin/users/<%= item.id %>" class="admin-btn admin-btn-sm admin-btn-outline">Chi tiết</a>
+                          <a href="/admin/users/<%= item.id %>/edit" class="admin-btn admin-btn-sm admin-btn-outline">Sửa</a>
+                          <form action="/admin/users/<%= item.id %>/delete" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa người dùng này?')">
+                            <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Xóa</button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="8" class="admin-empty">Chưa có người dùng nào</td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="admin-user-grid">
+          <% if (users && users.length > 0) { %>
+            <% users.forEach(item => { %>
+              <div class="admin-user-card">
+                <div class="admin-user-card-top">
+                  <h3><%= item.fullName %></h3>
+
+                  <% if (item.status === "ACTIVE") { %>
+                    <span class="admin-badge admin-badge-success">Hoạt động</span>
+                  <% } else if (item.status === "INACTIVE") { %>
+                    <span class="admin-badge admin-badge-secondary">Không hoạt động</span>
+                  <% } else { %>
+                    <span class="admin-badge admin-badge-danger">Bị khóa</span>
+                  <% } %>
+                </div>
+
+                <p><strong>Email:</strong> <%= item.email %></p>
+                <p><strong>Số điện thoại:</strong> <%= item.phone %></p>
+                <p><strong>Vai trò:</strong> <%= item.role %></p>
+                <p><strong>Ngày tạo:</strong> <%= item.createdAt || '' %></p>
+
+                <div class="admin-user-card-actions">
+                  <a href="/admin/users/<%= item.id %>" class="admin-btn admin-btn-sm admin-btn-outline">Chi tiết</a>
+                  <a href="/admin/users/<%= item.id %>/edit" class="admin-btn admin-btn-sm admin-btn-outline">Sửa</a>
+
+                  <form action="/admin/users/<%= item.id %>/delete" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa người dùng này?')">
+                    <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Xóa</button>
+                  </form>
+                </div>
+              </div>
+            <% }) %>
+          <% } %>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

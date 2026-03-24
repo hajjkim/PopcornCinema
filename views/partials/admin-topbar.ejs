@@ -1,0 +1,72 @@
+<header class="admin-topbar">
+  <div class="admin-topbar-left">
+    <h1><%= pageTitle %></h1>
+    <% if (pageDescription) { %>
+      <p><%= pageDescription %></p>
+    <% } %>
+  </div>
+
+  
+  <div class="admin-topbar-right">
+  <div class="admin-notification">
+    <button class="notification-btn">
+      🔔
+      <span class="notification-badge">3</span>
+    </button>
+
+    <div class="notification-dropdown">
+  <div class="noti-header">
+    <h4>🔔 Thông báo</h4>
+  </div>
+
+  <div class="noti-list">
+    <div class="noti-item success">
+      <div class="noti-icon">🛒</div>
+      <div class="noti-content">
+        <strong>Đơn hàng mới</strong>
+        <span>Bạn có 5 đơn hàng mới</span>
+      </div>
+    </div>
+
+    <div class="noti-item warning">
+      <div class="noti-icon">🔥</div>
+      <div class="noti-content">
+        <strong>Phim hot</strong>
+        <span>“Thỏ ơi!!!” đang bán chạy</span>
+      </div>
+    </div>
+
+    <div class="noti-item info">
+      <div class="noti-icon">⚙️</div>
+      <div class="noti-content">
+        <strong>Hệ thống</strong>
+        <span>Cập nhật thành công dữ liệu</span>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+
+  <div class="admin-admin-info">
+    <span>Xin chào, <%= adminName || 'Admin' %></span>
+    <a href="/auth/logout" class="admin-logout-btn">Đăng xuất</a>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const noti = document.querySelector(".admin-notification");
+
+    if (noti) {
+      noti.querySelector(".notification-btn").addEventListener("click", function () {
+        noti.classList.toggle("active");
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!noti.contains(e.target)) {
+          noti.classList.remove("active");
+        }
+      });
+    }
+  });
+</script>
+</header>

@@ -1,0 +1,461 @@
+/* =========================
+   MOVIE DETAIL PAGE
+========================= */
+.page-movie-detail .movie-detail-page {
+  min-height: 100vh;
+  background: #071f45;
+  color: #fff;
+}
+
+/* =========================
+   HERO BANNER
+========================= */
+.page-movie-detail .movie-detail-hero {
+  position: relative;
+  height: 360px;
+  overflow: hidden;
+}
+
+.page-movie-detail .movie-detail-hero-backdrop {
+  position: absolute;
+  inset: 0;
+}
+
+.page-movie-detail .movie-detail-hero-backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.03);
+}
+
+.page-movie-detail .movie-detail-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(7, 31, 69, 0.08), rgba(7, 31, 69, 0.28)),
+    linear-gradient(to top, #071f45 0%, rgba(7, 31, 69, 0.15) 40%);
+}
+
+/* =========================
+   CONTENT WRAP
+========================= */
+.page-movie-detail .movie-detail-content-wrap {
+  margin-top: -48px;
+  position: relative;
+  z-index: 2;
+  padding-bottom: 48px;
+}
+
+.page-movie-detail .movie-detail-content-wrap .container {
+  max-width: 1280px;
+}
+
+.page-movie-detail .movie-detail-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr 280px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* =========================
+   LEFT POSTER
+========================= */
+.page-movie-detail .movie-detail-poster-col {
+  align-self: start;
+}
+
+.page-movie-detail .movie-detail-poster-card {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0a2a57;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+}
+
+.page-movie-detail .movie-detail-poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+/* =========================
+   CENTER INFO
+========================= */
+.page-movie-detail .movie-detail-info-col {
+  background: #0a2a57;
+  padding: 18px 20px 22px;
+  border-radius: 10px;
+}
+
+.page-movie-detail .movie-detail-title {
+  margin: 0 0 12px;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #ffffff;
+}
+
+.page-movie-detail .movie-detail-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.page-movie-detail .movie-age-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: #f5b942;
+  color: #071f45;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.page-movie-detail .movie-duration {
+  color: #d9e4ef;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.page-movie-detail .movie-detail-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d9e4ef;
+  font-size: 15px;
+  margin-bottom: 14px;
+}
+
+.page-movie-detail .status-icon {
+  color: #f5c84c;
+  font-size: 18px;
+}
+
+.page-movie-detail .movie-detail-info-list p {
+  margin: 0 0 6px;
+  color: #dce7f1;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.page-movie-detail .movie-detail-info-list strong {
+  color: #ffffff;
+}
+
+.page-movie-detail .movie-detail-description {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.page-movie-detail .movie-detail-description h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.page-movie-detail .movie-detail-description p {
+  margin: 0;
+  color: #d3deea;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.page-movie-detail .movie-detail-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+/* =========================
+   RIGHT SIDEBAR
+========================= */
+.page-movie-detail .movie-detail-sidebar {
+  background: #0a2a57;
+  padding: 18px 16px;
+  border-radius: 10px;
+}
+
+.page-movie-detail .movie-detail-sidebar h2 {
+  margin: 0 0 14px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.page-movie-detail .sidebar-movie-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.page-movie-detail .sidebar-movie-card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.page-movie-detail .sidebar-movie-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 24px rgba(0, 0, 0, 0.28);
+}
+
+.page-movie-detail .sidebar-movie-thumb {
+  position: relative;
+}
+
+.page-movie-detail .sidebar-movie-thumb img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+}
+
+.page-movie-detail .sidebar-age {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  background: #f5b942;
+  color: #071f45;
+  font-size: 12px;
+  font-weight: 800;
+  border-radius: 4px;
+  padding: 3px 7px;
+}
+
+.page-movie-detail .empty-text {
+  color: #cbd7e4;
+  font-size: 14px;
+}
+
+/* =========================
+   EMPTY
+========================= */
+.page-movie-detail .movie-detail-empty {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.page-movie-detail .movie-detail-empty h1 {
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.page-movie-detail .movie-detail-empty p {
+  color: #cbd7e4;
+  margin-bottom: 20px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 1100px) {
+  .page-movie-detail .movie-detail-layout {
+    grid-template-columns: 220px 1fr;
+  }
+
+  .page-movie-detail .movie-detail-sidebar {
+    grid-column: 1 / -1;
+  }
+
+  .page-movie-detail .sidebar-movie-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-movie-detail .movie-detail-hero {
+    height: 250px;
+  }
+
+  .page-movie-detail .movie-detail-content-wrap {
+    margin-top: -24px;
+  }
+
+  .page-movie-detail .movie-detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .page-movie-detail .movie-detail-poster-col {
+    max-width: 220px;
+  }
+
+  .page-movie-detail .movie-detail-title {
+    font-size: 26px;
+  }
+
+  .page-movie-detail .sidebar-movie-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .page-movie-detail .movie-detail-info-col,
+  .page-movie-detail .movie-detail-sidebar {
+    padding: 14px;
+  }
+
+  .page-movie-detail .movie-detail-title {
+    font-size: 22px;
+  }
+
+  .page-movie-detail .movie-detail-info-list p,
+  .page-movie-detail .movie-detail-description p {
+    font-size: 14px;
+  }
+
+  .page-movie-detail .sidebar-movie-list {
+    grid-template-columns: 1fr;
+  }
+}
+/* =========================
+   MOVIE SCHEDULE
+========================= */
+.page-movie-detail .movie-schedule-block {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.page-movie-detail .movie-schedule-block h3 {
+  margin: 0 0 14px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.page-movie-detail .movie-schedule-filters {
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.75);
+}
+
+.page-movie-detail .movie-schedule-dates {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.page-movie-detail .schedule-date-btn {
+  min-width: 82px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.page-movie-detail .schedule-date-btn .date-label,
+.page-movie-detail .schedule-date-btn .date-value {
+  display: block;
+  line-height: 1.3;
+}
+
+.page-movie-detail .schedule-date-btn .date-label {
+  font-size: 13px;
+}
+
+.page-movie-detail .schedule-date-btn .date-value {
+  font-size: 13px;
+  color: #d4dfeb;
+}
+
+.page-movie-detail .schedule-date-btn.active {
+  background: #ffffff;
+  color: #071f45;
+}
+
+.page-movie-detail .schedule-date-btn.active .date-value {
+  color: #071f45;
+}
+
+.page-movie-detail .movie-schedule-selects {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.page-movie-detail .movie-schedule-selects select {
+  min-width: 130px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 0 10px;
+  outline: none;
+}
+
+.page-movie-detail .movie-schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.page-movie-detail .schedule-cinema-card {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 18px 14px;
+  border-radius: 4px;
+}
+
+.page-movie-detail .schedule-cinema-card h4 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.page-movie-detail .schedule-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.page-movie-detail .schedule-format {
+  color: #cfdbe7;
+  font-size: 15px;
+}
+
+.page-movie-detail .schedule-times {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.page-movie-detail .schedule-time-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+  color: #dce7f1;
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.25s ease;
+}
+
+.page-movie-detail .schedule-time-btn:hover {
+  background: #f5b942;
+  color: #071f45;
+  border-color: #f5b942;
+}

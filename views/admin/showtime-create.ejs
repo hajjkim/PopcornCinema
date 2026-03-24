@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "showtimes" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Thêm suất chiếu",
+        pageDescription: "Tạo mới lịch chiếu phim",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-card">
+          <form class="admin-form-grid" method="POST" action="/admin/showtimes/create">
+            <div class="admin-form-group">
+              <label>Tên phim</label>
+              <input type="text" name="movieTitle" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Rạp</label>
+              <input type="text" name="cinemaName" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Phòng</label>
+              <input type="text" name="roomName" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Ngày chiếu</label>
+              <input type="date" name="showDate" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Giờ bắt đầu</label>
+              <input type="time" name="startTime" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Giờ kết thúc</label>
+              <input type="time" name="endTime" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Định dạng</label>
+              <input type="text" name="format" placeholder="Ví dụ: 2D Phụ đề" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Trạng thái</label>
+              <select name="status" required>
+                <option value="OPEN">Đang mở bán</option>
+                <option value="CLOSED">Đã đóng</option>
+              </select>
+            </div>
+
+            <div class="admin-form-actions">
+              <a href="/admin/showtimes" class="admin-btn admin-btn-outline">Hủy</a>
+              <button type="submit" class="admin-btn admin-btn-primary">Lưu suất chiếu</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

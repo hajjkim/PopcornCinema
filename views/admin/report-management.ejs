@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title || "Báo cáo thống kê" %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <%
+    const safeReportType = typeof reportType !== "undefined" ? reportType : "movies";
+    const safeMovieReport = Array.isArray(movieReport) ? movieReport : [];
+    const safeSnackReport = Array.isArray(snackReport) ? snackReport : [];
+    const safeStats = stats || {};
+
+    const totalOrders = Number(safeStats.totalOrders || 0);
+    const totalTicketSold = Number(safeStats.totalTicketSold || 0);
+    const totalMovieRevenue = Number(safeStats.totalMovieRevenue || 0);
+    const totalSnackSold = Number(safeStats.totalSnackSold || 0);
+    const totalSnackRevenue = Number(safeStats.totalSnackRevenue || 0);
+
+    const topMovie = safeStats.topMovie || (safeMovieReport.length ? safeMovieReport[0] : null);
+    const topSnack = safeStats.topSnack || (safeSnackReport.length ? safeSnackReport[0] : null);
+
+    function formatCurrency(value) {
+      return Number(value || 0).toLocaleString("vi-VN") + " đ";
+    }
+
+    function calcPercent(value, total) {
+      if (!total || total <= 0) return 0;
+      return Math.round((Number(value || 0) / total) * 100);
+    }
+  %>
+
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "reports" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Báo cáo thống kê",
+        pageDescription: "Xem phim bán chạy và bắp nước bán chạy",
+        adminName: sessionUser && sessionUser.fullName ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="report-stat-grid">
+          <div class="report-stat-card">
+            <span class="report-stat-label">Tổng đơn hàng</span>
+            <strong><%= totalOrders %></strong>
+          </div>
+
+          <div class="report-stat-card">
+            <span class="report-stat-label">Tổng vé đã bán</span>
+            <strong><%= totalTicketSold %></strong>
+          </div>
+
+          <div class="report-stat-card">
+            <span class="report-stat-label">Doanh thu vé</span>
+            <strong><%= formatCurrency(totalMovieRevenue) %></strong>
+          </div>
+
+          <div class="report-stat-card">
+            <span class="report-stat-label">Doanh thu bắp nước</span>
+            <strong><%= formatCurrency(totalSnackRevenue) %></strong>
+          </div>
+        </div>
+
+        <div class="admin-card report-highlight-grid">
+          <div class="report-highlight-box">
+            <p class="report-highlight-title">Phim bán chạy nhất</p>
+
+            <% if (topMovie) { %>
+              <div class="report-highlight-content">
+                <img
+                  src="<%= topMovie.poster || '/images/default-movie.jpg' %>"
+                  alt="<%= topMovie.title || 'Movie' %>"
+                  class="report-highlight-thumb"
+                  onerror="this.src='https://placehold.co/100x140?text=Movie'"
+                />
+                <div>
+                  <h3><%= topMovie.title || "Chưa có dữ liệu" %></h3>
+                  <p>Vé bán: <strong><%= Number(topMovie.ticketsSold || 0) %></strong></p>
+                  <p>Đơn hàng: <strong><%= Number(topMovie.orders || 0) %></strong></p>
+                  <p>Doanh thu: <strong><%= formatCurrency(topMovie.revenue) %></strong></p>
+                </div>
+              </div>
+            <% } else { %>
+              <p>Chưa có dữ liệu phim.</p>
+            <% } %>
+          </div>
+
+          <div class="report-highlight-box">
+            <p class="report-highlight-title">Bắp nước bán chạy nhất</p>
+
+            <% if (topSnack) { %>
+              <div class="report-highlight-content">
+                <img
+                  src="<%= topSnack.image || '/images/default-snack.jpg' %>"
+                  alt="<%= topSnack.name || 'Snack' %>"
+                  class="report-highlight-thumb"
+                  onerror="this.src='https://placehold.co/100x140?text=Snack'"
+                />
+                <div>
+                  <h3><%= topSnack.name || "Chưa có dữ liệu" %></h3>
+                  <p>Số lượng bán: <strong><%= Number(topSnack.quantitySold || 0) %></strong></p>
+                  <p>Đơn hàng: <strong><%= Number(topSnack.orders || 0) %></strong></p>
+                  <p>Doanh thu: <strong><%= formatCurrency(topSnack.revenue) %></strong></p>
+                </div>
+              </div>
+            <% } else { %>
+              <p>Chưa có dữ liệu bắp nước.</p>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="report-tabs">
+          <a
+            href="/admin/reports?type=movies"
+            class="report-tab <%= safeReportType === 'movies' ? 'active' : '' %>"
+          >
+            Phim bán chạy
+          </a>
+          <a
+            href="/admin/reports?type=snacks"
+            class="report-tab <%= safeReportType === 'snacks' ? 'active' : '' %>"
+          >
+            Bắp nước bán chạy
+          </a>
+        </div>
+
+        <% if (safeReportType === "movies") { %>
+          <div class="admin-card">
+            <div class="report-section-header">
+              <h2>Bảng xếp hạng phim bán chạy</h2>
+              <p>Sắp xếp theo số vé bán ra</p>
+            </div>
+
+            <% if (safeMovieReport.length > 0) { %>
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Top</th>
+                    <th>Poster</th>
+                    <th>Tên phim</th>
+                    <th>Vé bán</th>
+                    <th>Đơn hàng</th>
+                    <th>Doanh thu</th>
+                    <th>Tỷ lệ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% safeMovieReport.forEach(function(movie, index) { %>
+                    <tr>
+                      <td>#<%= index + 1 %></td>
+                      <td>
+                        <img
+                          src="<%= movie.poster || '/images/default-movie.jpg' %>"
+                          alt="<%= movie.title || 'Movie' %>"
+                          class="admin-movie-thumb"
+                          onerror="this.src='https://placehold.co/80x110?text=Movie'"
+                        />
+                      </td>
+                      <td><strong><%= movie.title || "Không có tên" %></strong></td>
+                      <td><%= Number(movie.ticketsSold || 0) %></td>
+                      <td><%= Number(movie.orders || 0) %></td>
+                      <td><%= formatCurrency(movie.revenue) %></td>
+                      <td style="min-width:220px;">
+                        <div class="report-bar-wrap">
+                          <div
+                            class="report-bar"
+                            style="width: <%= calcPercent(movie.ticketsSold, totalTicketSold) + '%' %>;"
+                          ></div>
+                        </div>
+                        <small><%= calcPercent(movie.ticketsSold, totalTicketSold) %>% tổng vé</small>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            <% } else { %>
+              <p>Chưa có dữ liệu phim để hiển thị.</p>
+            <% } %>
+          </div>
+        <% } %>
+
+        <% if (safeReportType === "snacks") { %>
+          <div class="admin-card">
+            <div class="report-section-header">
+              <h2>Bảng xếp hạng bắp nước bán chạy</h2>
+              <p>Sắp xếp theo số lượng bán ra</p>
+            </div>
+
+            <% if (safeSnackReport.length > 0) { %>
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Top</th>
+                    <th>Ảnh</th>
+                    <th>Tên món</th>
+                    <th>Loại</th>
+                    <th>Số lượng bán</th>
+                    <th>Đơn hàng</th>
+                    <th>Doanh thu</th>
+                    <th>Tỷ lệ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% safeSnackReport.forEach(function(snack, index) { %>
+                    <tr>
+                      <td>#<%= index + 1 %></td>
+                      <td>
+                        <img
+                          src="<%= snack.image || '/images/default-snack.jpg' %>"
+                          alt="<%= snack.name || 'Snack' %>"
+                          class="admin-movie-thumb"
+                          onerror="this.src='https://placehold.co/80x110?text=Snack'"
+                        />
+                      </td>
+                      <td><strong><%= snack.name || "Không có tên" %></strong></td>
+                      <td><%= snack.type || "-" %></td>
+                      <td><%= Number(snack.quantitySold || 0) %></td>
+                      <td><%= Number(snack.orders || 0) %></td>
+                      <td><%= formatCurrency(snack.revenue) %></td>
+                      <td style="min-width:220px;">
+                        <div class="report-bar-wrap">
+                          <div
+                            class="report-bar report-bar-snack"
+                            style="width: <%= calcPercent(snack.quantitySold, totalSnackSold) + '%' %>;"
+                          ></div>
+                        </div>
+                        <small><%= calcPercent(snack.quantitySold, totalSnackSold) %>% tổng món</small>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            <% } else { %>
+              <p>Chưa có dữ liệu bắp nước để hiển thị.</p>
+            <% } %>
+          </div>
+        <% } %>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

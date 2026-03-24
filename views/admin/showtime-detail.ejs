@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "showtimes" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Chi tiết suất chiếu",
+        pageDescription: "Xem thông tin chi tiết lịch chiếu",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-page-actions">
+          <a href="/admin/showtimes" class="admin-btn admin-btn-outline">← Quay lại</a>
+          <a href="/admin/showtimes/<%= showtime.id %>/edit" class="admin-btn admin-btn-primary">Sửa suất chiếu</a>
+        </div>
+
+        <div class="admin-card">
+          <div class="cinema-detail-grid">
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Tên phim</div>
+              <div class="cinema-detail-value"><%= showtime.movieTitle %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Rạp</div>
+              <div class="cinema-detail-value"><%= showtime.cinemaName %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Phòng</div>
+              <div class="cinema-detail-value"><%= showtime.roomName %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Ngày chiếu</div>
+              <div class="cinema-detail-value"><%= showtime.showDate %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Giờ bắt đầu</div>
+              <div class="cinema-detail-value"><%= showtime.startTime %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Giờ kết thúc</div>
+              <div class="cinema-detail-value"><%= showtime.endTime %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Định dạng</div>
+              <div class="cinema-detail-value"><%= showtime.format %></div>
+            </div>
+
+            <div class="cinema-detail-item">
+              <div class="cinema-detail-label">Trạng thái</div>
+              <div class="cinema-detail-value">
+                <% if (showtime.status === "OPEN") { %>
+                  <span class="admin-badge admin-badge-success">Đang mở bán</span>
+                <% } else { %>
+                  <span class="admin-badge admin-badge-danger">Đã đóng</span>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

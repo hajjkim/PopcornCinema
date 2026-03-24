@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> - <%= movie.title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/booking.css" />
+</head>
+<body class="page-booking page-booking-snacks">
+  <%- include("../partials/header") %>
+
+  <main class="booking-page">
+    <div class="container">
+      <div class="snack-layout">
+        <section class="snack-main">
+          <div class="snack-page-header">
+            <h1>Chọn bắp nước</h1>
+            <p>Thêm combo để buổi xem phim trọn vẹn hơn.</p>
+          </div>
+
+          <div class="snack-grid">
+            <% snacks.forEach(item => { %>
+              <div
+                class="snack-card"
+                data-id="<%= item.id %>"
+                data-name="<%= item.name %>"
+                data-price="<%= item.price %>"
+              >
+                <div class="snack-card-image">
+                  <img
+                    src="<%= item.image %>"
+                    alt="<%= item.name %>"
+                    onerror="this.src='https://placehold.co/300x200?text=Snack'"
+                  />
+                </div>
+
+                <div class="snack-card-body">
+                  <h3><%= item.name %></h3>
+                  <p><%= item.description %></p>
+
+                  <div class="snack-card-footer">
+                    <strong><%= item.price.toLocaleString("vi-VN") %> đ</strong>
+
+                    <div class="snack-qty-box">
+                      <button type="button" class="qty-btn minus-btn">-</button>
+                      <span class="qty-value">0</span>
+                      <button type="button" class="qty-btn plus-btn">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </section>
+
+        <aside class="snack-summary-panel">
+          <div class="summary-movie">
+            <img src="<%= movie.poster %>" alt="<%= movie.title %>" />
+            <div>
+              <h3><%= movie.title %></h3>
+              <p><%= movie.ageRating %> - <%= movie.duration %> phút</p>
+            </div>
+          </div>
+
+          <div class="summary-line">
+            <span>Rạp</span>
+            <strong id="snackCinema">Chưa có</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Suất chiếu</span>
+            <strong id="snackShowtime">Chưa có</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Ghế</span>
+            <strong id="snackSeats">Chưa có</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Tiền vé</span>
+            <strong id="snackTicketTotal">0đ</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Combo đã chọn</span>
+            <strong id="snackSelectedItems">Chưa chọn</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Tiền combo</span>
+            <strong id="snackComboTotal">0đ</strong>
+          </div>
+
+          <div class="summary-line total">
+            <span>Tạm tính</span>
+            <strong id="snackGrandTotal">0đ</strong>
+          </div>
+
+          <div class="snack-actions">
+            <a href="/booking/showtime/<%= movie._id %>" class="payment-back-link">Quay lại</a>
+            <a href="/booking/payment/<%= movie._id %>" class="btn btn-primary booking-next-btn" id="goToPaymentPage">
+              Tiếp tục
+            </a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <%- include("../partials/footer") %>
+  <script src="/js/booking-snacks.js"></script>
+</body>
+</html>

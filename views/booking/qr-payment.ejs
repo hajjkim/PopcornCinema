@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> - <%= movie.title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/booking.css" />
+</head>
+<body class="page-booking page-booking-qr">
+  <%- include("../partials/header") %>
+
+  <main class="booking-page">
+    <div class="container">
+      <div class="qr-payment-layout">
+        <section class="qr-payment-main">
+          <div class="qr-payment-card">
+            <h2>Phương thức thanh toán</h2>
+            <p class="qr-payment-subtitle">Thanh toán mã QR với ứng dụng di động</p>
+
+            <div class="qr-payment-content">
+              <div class="qr-image-box">
+                <img
+                  src="<%= orderInfo.qrImage %>"
+                  alt="QR thanh toán"
+                  class="qr-image"
+                />
+
+               <a href="/booking/payment/<%= movie._id %>" class="btn btn-primary qr-back-btn">
+                    Trở lại giao dịch trước
+                    </a>
+              </div>
+
+              <div class="qr-guide-box">
+                <h3>Hướng dẫn quét mã QR</h3>
+                <ul class="qr-guide-list">
+                  <li>Mở ứng dụng trên điện thoại</li>
+                  <li>Tới ứng dụng ngân hàng hoặc ví điện tử</li>
+                  <li>Quét mã QR ở trang này và thanh toán</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="qr-payment-sidebar">
+          <div class="qr-order-card">
+            <div class="qr-order-info">
+              <p><strong>Thông tin đơn hàng:</strong></p>
+              <p id="orderCode"><%= orderInfo.orderCode %></p>
+              <p>Số tiền thanh toán: <strong id="orderAmount"><%= orderInfo.amount.toLocaleString("vi-VN") %> đ</strong></p>
+              <p>Thời hạn giao dịch: <strong id="expireTimer"><%= orderInfo.expireTime %></strong></p>
+            </div>
+
+            <div class="qr-bank-info">
+              <p>Ngân hàng nhận: <strong><%= orderInfo.bankName %></strong></p>
+              <p>Số tài khoản: <strong><%= orderInfo.accountNumber %></strong></p>
+              <p>Chủ tài khoản: <strong><%= orderInfo.accountHolder %></strong></p>
+              <p>Nội dung chuyển khoản:</p>
+              <p class="transfer-content" id="transferContent"><strong><%= orderInfo.transferContent %></strong></p>
+            </div>
+
+            <div class="qr-order-actions">
+              <button type="button" class="btn btn-primary qr-copy-btn" id="copyTransferBtn">
+                Sao chép nội dung CK
+              </button>
+
+              <a href="/booking/success/<%= movie._id %>" class="btn btn-primary qr-paid-btn">
+                Tôi đã thanh toán
+                </a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <%- include("../partials/footer") %>
+  <script src="/js/booking-qr.js"></script>
+</body>
+</html>

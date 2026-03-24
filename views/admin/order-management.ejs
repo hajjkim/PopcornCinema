@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "orders" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Quản lý đơn hàng",
+        pageDescription: "Quản lý các đơn đặt vé trong hệ thống",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-card">
+          <form class="admin-filter-form" method="GET" action="/admin/orders">
+            <div class="admin-form-group">
+              <label for="keyword">Từ khóa</label>
+              <input
+                type="text"
+                id="keyword"
+                name="keyword"
+                placeholder="Mã đơn, khách hàng, phim..."
+                value="<%= keyword || '' %>"
+              />
+            </div>
+
+            <div class="admin-form-group">
+              <label for="status">Trạng thái</label>
+              <select id="status" name="status">
+                <option value="">Tất cả</option>
+                <option value="PENDING" <%= status === "PENDING" ? "selected" : "" %>>Chờ thanh toán</option>
+                <option value="PAID" <%= status === "PAID" ? "selected" : "" %>>Đã thanh toán</option>
+                <option value="CANCELLED" <%= status === "CANCELLED" ? "selected" : "" %>>Đã hủy</option>
+              </select>
+            </div>
+
+            <div class="admin-filter-actions">
+              <button type="submit" class="admin-btn admin-btn-primary">Lọc</button>
+              <a href="/admin/orders" class="admin-btn admin-btn-outline">Đặt lại</a>
+            </div>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Mã đơn</th>
+                  <th>Khách hàng</th>
+                  <th>Phim</th>
+                  <th>Rạp</th>
+                  <th>Tổng tiền</th>
+                  <th>Thanh toán</th>
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% if (orders && orders.length > 0) { %>
+                  <% orders.forEach(order => { %>
+                    <tr>
+                      <td><%= order.id %></td>
+                      <td><strong><%= order.orderCode %></strong></td>
+                      <td><%= order.customerName %></td>
+                      <td><%= order.movieTitle %></td>
+                      <td><%= order.cinemaName %></td>
+                      <td><%= order.totalAmount.toLocaleString("vi-VN") %>đ</td>
+                      <td><%= order.paymentMethod %></td>
+                      <td>
+                        <% if (order.status === "PAID") { %>
+                          <span class="admin-badge admin-badge-success">Đã thanh toán</span>
+                        <% } else if (order.status === "PENDING") { %>
+                          <span class="admin-badge admin-badge-warning">Chờ thanh toán</span>
+                        <% } else { %>
+                          <span class="admin-badge admin-badge-danger">Đã hủy</span>
+                        <% } %>
+                      </td>
+                      <td>
+                        <div class="admin-table-actions">
+                          <a href="/admin/orders/<%= order.id %>" class="admin-btn admin-btn-sm admin-btn-outline">Chi tiết</a>
+                          <a href="/admin/orders/<%= order.id %>/edit" class="admin-btn admin-btn-sm admin-btn-outline">Sửa</a>
+
+                          <form action="/admin/orders/<%= order.id %>/delete" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa đơn hàng này?')">
+                            <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Xóa</button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="9" class="admin-empty">Chưa có đơn hàng nào</td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

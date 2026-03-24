@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "snacks" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Chi tiết bắp nước",
+        pageDescription: "Thông tin chi tiết sản phẩm",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-card" style="display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start;">
+          <div>
+            <img
+              src="<%= snack.image %>"
+              alt="<%= snack.name %>"
+              style="width:100%;border-radius:16px;object-fit:cover;"
+              onerror="this.src='https://placehold.co/400x300?text=Snack'"
+            />
+          </div>
+
+          <div>
+            <h2 style="margin-top:0;"><%= snack.name %></h2>
+
+            <div class="admin-detail-list">
+              <p><strong>ID:</strong> <%= snack.id %></p>
+              <p><strong>Loại:</strong> <%= snack.type %></p>
+              <p><strong>Giá:</strong> <%= Number(snack.price).toLocaleString("vi-VN") %> đ</p>
+              <p><strong>Trạng thái:</strong> <%= snack.status %></p>
+              <p><strong>Mô tả:</strong> <%= snack.description %></p>
+            </div>
+
+            <div class="admin-form-actions" style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+              <a href="/admin/snacks" class="admin-btn admin-btn-outline">Quay lại</a>
+              <a href="/admin/snacks/<%= snack.id %>/edit" class="admin-btn admin-btn-primary">Sửa</a>
+
+              <form action="/admin/snacks/<%= snack.id %>/delete" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa món này?')">
+                <button type="submit" class="admin-btn admin-btn-danger">Xóa</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

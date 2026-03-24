@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "dashboard" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Thống kê",
+        pageDescription: "Tổng quan hệ thống quản trị",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-dashboard-grid">
+          <div class="admin-stat-card">
+            <h3>Tổng số phim</h3>
+            <p>25</p>
+          </div>
+
+          <div class="admin-stat-card">
+            <h3>Suất chiếu hôm nay</h3>
+            <p>48</p>
+          </div>
+
+          <div class="admin-stat-card">
+            <h3>Đơn hàng</h3>
+            <p>132</p>
+          </div>
+
+          <div class="admin-stat-card">
+            <h3>Người dùng</h3>
+            <p>560</p>
+          </div>
+        </div>
+
+        <div class="dashboard-analytics-grid">
+          <div class="dashboard-left-col">
+            <div class="dashboard-chart-card">
+              <div class="dashboard-card-header">
+                <h3>Doanh thu 7 ngày qua</h3>
+                <button class="dashboard-chip-btn">7 ngày</button>
+              </div>
+
+              <div class="revenue-chart-wrap">
+                <div class="chart-y-axis">
+                  <span>500M</span>
+                  <span>400M</span>
+                  <span>300M</span>
+                  <span>200M</span>
+                  <span>100M</span>
+                </div>
+
+                <div class="chart-main">
+                  <div class="chart-grid">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                    <div class="chart-vertical-lines">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+
+                    <svg
+                      class="revenue-line-svg"
+                      viewBox="0 0 100 100"
+                      preserveAspectRatio="none"
+                    >
+                      <polyline
+                        fill="none"
+                        stroke="#3bd16f"
+                        stroke-width="3"
+                        points="0,78 16,70 32,52 48,58 64,36 80,25 100,12"
+                      />
+                    </svg>
+                  </div>
+
+                  <div class="chart-x-axis">
+                    <span>T2</span>
+                    <span>T3</span>
+                    <span>T4</span>
+                    <span>T5</span>
+                    <span>T6</span>
+                    <span>T7</span>
+                    <span>CN</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="chart-legend">
+                <span class="legend-dot"></span>
+                <span>Doanh thu (VND)</span>
+              </div>
+            </div>
+
+            <div class="dashboard-movie-card">
+              <div class="dashboard-card-header">
+                <h3>Top 4 Phim Bán Chạy</h3>
+                <a href="/admin/reports?type=movies" class="dashboard-chip-link">Xem tất cả</a>
+              </div>
+
+              <div class="top-movie-list">
+                <div class="top-movie-item">
+                  <img src="/images/movies/phim2.jpg" alt="Thỏ ơi!!!" onerror="this.src='https://placehold.co/56x56?text=Movie'" />
+                  <div class="top-movie-info">
+                    <strong>Thỏ ơi!!!</strong>
+                    <span>1.240 vé đã bán</span>
+                  </div>
+                </div>
+
+                <div class="top-movie-item">
+                  <img src="/images/movies/phim3.jpg" alt="Nhà Bà Tôi Một Phòng" onerror="this.src='https://placehold.co/56x56?text=Movie'" />
+                  <div class="top-movie-info">
+                    <strong>Nhà Bà Tôi Một Phòng</strong>
+                    <span>1.050 vé đã bán</span>
+                  </div>
+                </div>
+
+                <div class="top-movie-item">
+                  <img src="/images/movies/phim4.jpg" alt="Báu Vật Trời Cho" onerror="this.src='https://placehold.co/56x56?text=Movie'" />
+                  <div class="top-movie-info">
+                    <strong>Báu Vật Trời Cho</strong>
+                    <span>920 vé đã bán</span>
+                  </div>
+                </div>
+
+                <div class="top-movie-item">
+                  <img src="/images/movies/phim1.jpg" alt="Biệt Đội Thú Cưng" onerror="this.src='https://placehold.co/56x56?text=Movie'" />
+                  <div class="top-movie-info">
+                    <strong>Biệt Đội Thú Cưng “Cuộc Chiến Trên Đường Ray”</strong>
+                    <span>815 vé đã bán</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-right-col">
+            <div class="dashboard-summary-card">
+              <div class="dashboard-card-header">
+                <h3>Tổng quan doanh thu</h3>
+              </div>
+
+              <div class="summary-stat-list">
+                <div class="summary-stat-item">
+                  <span>Tổng doanh thu</span>
+                  <strong>2.48 tỷ</strong>
+                </div>
+
+                <div class="summary-stat-item">
+                  <span>Doanh thu vé</span>
+                  <strong>1.92 tỷ</strong>
+                </div>
+
+                <div class="summary-stat-item">
+                  <span>Doanh thu bắp nước</span>
+                  <strong>560 triệu</strong>
+                </div>
+
+                <div class="summary-stat-item">
+                  <span>Tỷ lệ lấp đầy</span>
+                  <strong>78%</strong>
+                </div>
+              </div>
+
+              <div class="mini-bars">
+                <div class="mini-bar-group">
+                  <label>Vé phim</label>
+                  <div class="mini-bar-track">
+                    <div class="mini-bar-fill" style="width: 78%;"></div>
+                  </div>
+                </div>
+
+                <div class="mini-bar-group">
+                  <label>Bắp nước</label>
+                  <div class="mini-bar-track">
+                    <div class="mini-bar-fill gold" style="width: 52%;"></div>
+                  </div>
+                </div>
+
+                <div class="mini-bar-group">
+                  <label>Khuyến mãi</label>
+                  <div class="mini-bar-track">
+                    <div class="mini-bar-fill red" style="width: 35%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dashboard-note-box">
+                <p>Hiệu suất tuần này tăng <strong>12.5%</strong> so với tuần trước.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

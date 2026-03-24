@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "snacks" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Quản lý bắp nước",
+        pageDescription: "Quản lý combo, bắp và nước cho hệ thống",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-page-actions" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+          <form method="GET" action="/admin/snacks" style="display:flex;gap:12px;flex-wrap:wrap;">
+            <input
+              type="text"
+              name="keyword"
+              placeholder="Tìm theo tên hoặc mô tả"
+              value="<%= keyword || '' %>"
+              class="admin-form-input"
+              style="min-width:240px;"
+            />
+
+            <select name="type" class="admin-form-input">
+              <option value="">Tất cả loại</option>
+              <option value="COMBO" <%= type === 'COMBO' ? 'selected' : '' %>>Combo</option>
+              <option value="POPCORN" <%= type === 'POPCORN' ? 'selected' : '' %>>Bắp</option>
+              <option value="DRINK" <%= type === 'DRINK' ? 'selected' : '' %>>Nước</option>
+            </select>
+
+            <select name="status" class="admin-form-input">
+              <option value="">Tất cả trạng thái</option>
+              <option value="ACTIVE" <%= status === 'ACTIVE' ? 'selected' : '' %>>Đang bán</option>
+              <option value="INACTIVE" <%= status === 'INACTIVE' ? 'selected' : '' %>>Ngưng bán</option>
+            </select>
+
+            <button type="submit" class="admin-btn admin-btn-outline">Lọc</button>
+          </form>
+
+          <a href="/admin/snacks/create" class="admin-btn admin-btn-primary">+ Thêm món</a>
+        </div>
+
+        <div class="admin-card">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Ảnh</th>
+                <th>Tên món</th>
+                <th>Loại</th>
+                <th>Giá</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (snacks && snacks.length > 0) { %>
+                <% snacks.forEach(snack => { %>
+                  <tr>
+                    <td><%= snack.id %></td>
+                    <td>
+                      <img
+                        src="<%= snack.image %>"
+                        alt="<%= snack.name %>"
+                        class="admin-movie-thumb"
+                        onerror="this.src='https://placehold.co/100x140?text=Snack'"
+                      />
+                    </td>
+                    <td>
+                      <strong><%= snack.name %></strong><br />
+                      <small><%= snack.description %></small>
+                    </td>
+                    <td><%= snack.type %></td>
+                    <td><%= Number(snack.price).toLocaleString("vi-VN") %> đ</td>
+                    <td><%= snack.status %></td>
+                    <td>
+                      <div class="admin-table-actions">
+                        <a href="/admin/snacks/<%= snack.id %>" class="admin-btn admin-btn-sm admin-btn-outline">Chi tiết</a>
+                        <a href="/admin/snacks/<%= snack.id %>/edit" class="admin-btn admin-btn-sm admin-btn-outline">Sửa</a>
+
+                        <form action="/admin/snacks/<%= snack.id %>/delete" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa món này?')">
+                          <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Xóa</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="7" class="admin-empty">Chưa có món bắp nước nào</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

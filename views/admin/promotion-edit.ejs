@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "promotions" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Sửa khuyến mãi",
+        pageDescription: "Cập nhật chương trình khuyến mãi",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-card">
+          <form action="/admin/promotions/<%= promotion.id %>/edit" method="POST" enctype="multipart/form-data" class="admin-form-card">
+            <div class="admin-form-grid">
+              <div class="admin-form-group">
+                <label for="title">Tên khuyến mãi</label>
+                <input type="text" id="title" name="title" value="<%= promotion.title %>" required />
+              </div>
+
+              <div class="admin-form-group">
+                <label for="code">Mã khuyến mãi</label>
+                <input type="text" id="code" name="code" value="<%= promotion.code %>" required />
+              </div>
+
+              <div class="admin-form-group">
+                <label for="discountType">Loại giảm giá</label>
+                <select id="discountType" name="discountType" required>
+                  <option value="PERCENT" <%= promotion.discountType === 'PERCENT' ? 'selected' : '' %>>Phần trăm (%)</option>
+                  <option value="AMOUNT" <%= promotion.discountType === 'AMOUNT' ? 'selected' : '' %>>Tiền mặt (đ)</option>
+                </select>
+              </div>
+
+              <div class="admin-form-group">
+                <label for="discountValue">Giá trị giảm</label>
+                <input type="number" id="discountValue" name="discountValue" min="0" value="<%= promotion.discountValue %>" required />
+              </div>
+
+              <div class="admin-form-group">
+                <label for="minOrderValue">Đơn tối thiểu</label>
+                <input type="number" id="minOrderValue" name="minOrderValue" min="0" value="<%= promotion.minOrderValue %>" />
+              </div>
+
+              <div class="admin-form-group">
+                <label for="maxDiscountValue">Giảm tối đa</label>
+                <input type="number" id="maxDiscountValue" name="maxDiscountValue" min="0" value="<%= promotion.maxDiscountValue %>" />
+              </div>
+
+              <div class="admin-form-group">
+                <label for="startDate">Ngày bắt đầu</label>
+                <input type="date" id="startDate" name="startDate" value="<%= promotion.startDate %>" required />
+              </div>
+
+              <div class="admin-form-group">
+                <label for="endDate">Ngày kết thúc</label>
+                <input type="date" id="endDate" name="endDate" value="<%= promotion.endDate %>" required />
+              </div>
+
+              <div class="admin-form-group">
+                <label for="status">Trạng thái</label>
+                <select id="status" name="status" required>
+                  <option value="ACTIVE" <%= promotion.status === 'ACTIVE' ? 'selected' : '' %>>Hoạt động</option>
+                  <option value="INACTIVE" <%= promotion.status === 'INACTIVE' ? 'selected' : '' %>>Không hoạt động</option>
+                </select>
+              </div>
+
+              <div class="admin-form-group">
+                <label for="poster">Poster khuyến mãi</label>
+                <input type="file" id="poster" name="poster" accept="image/*" />
+              </div>
+
+              <div class="admin-form-group admin-form-group-full">
+                <label>Poster hiện tại</label>
+                <img src="<%= promotion.poster %>" alt="<%= promotion.title %>" class="admin-promotion-preview" />
+              </div>
+
+              <div class="admin-form-group admin-form-group-full">
+                <label for="description">Mô tả</label>
+                <textarea id="description" name="description" rows="4"><%= promotion.description || '' %></textarea>
+              </div>
+            </div>
+
+            <div class="admin-form-actions">
+              <button type="submit" class="admin-btn admin-btn-primary">Lưu thay đổi</button>
+              <a href="/admin/promotions/<%= promotion.id %>" class="admin-btn admin-btn-outline">Hủy</a>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

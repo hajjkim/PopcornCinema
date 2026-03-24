@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "cinemas" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Quản lý rạp phim",
+        pageDescription: "Quản lý hệ thống rạp và phòng chiếu",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-page-actions">
+          <a href="/admin/cinemas/create" class="admin-btn admin-btn-primary">+ Thêm rạp</a>
+        </div>
+
+        <div class="admin-card">
+          <form class="admin-filter-form" method="GET" action="/admin/cinemas">
+            <div class="admin-form-group">
+              <label for="keyword">Từ khóa</label>
+              <input
+                type="text"
+                id="keyword"
+                name="keyword"
+                placeholder="Nhập tên rạp hoặc địa chỉ..."
+                value="<%= keyword || '' %>"
+              />
+            </div>
+
+            <div class="admin-form-group">
+              <label for="city">Thành phố</label>
+              <select id="city" name="city">
+                <option value="">Tất cả</option>
+                <option value="Hồ Chí Minh" <%= city === "Hồ Chí Minh" ? "selected" : "" %>>Hồ Chí Minh</option>
+                <option value="Hà Nội" <%= city === "Hà Nội" ? "selected" : "" %>>Hà Nội</option>
+                <option value="Đà Nẵng" <%= city === "Đà Nẵng" ? "selected" : "" %>>Đà Nẵng</option>
+                <option value="Cần Thơ" <%= city === "Cần Thơ" ? "selected" : "" %>>Cần Thơ</option>
+              </select>
+            </div>
+
+            <div class="admin-filter-actions">
+              <button type="submit" class="admin-btn admin-btn-primary">Lọc</button>
+              <a href="/admin/cinemas" class="admin-btn admin-btn-outline">Đặt lại</a>
+            </div>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Tên rạp</th>
+                  <th>Địa chỉ</th>
+                  <th>Thành phố</th>
+                  <th>Số phòng</th>
+                  <th>Hotline</th>
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% if (cinemas && cinemas.length > 0) { %>
+                  <% cinemas.forEach(cinema => { %>
+                    <tr>
+                      <td><%= cinema.id %></td>
+                      <td><strong><%= cinema.name %></strong></td>
+                      <td><%= cinema.address %></td>
+                      <td><%= cinema.city %></td>
+                      <td><%= cinema.totalRooms %></td>
+                      <td><%= cinema.phone %></td>
+                      <td>
+                        <% if (cinema.status === "ACTIVE") { %>
+                          <span class="admin-badge admin-badge-success">Hoạt động</span>
+                        <% } else { %>
+                          <span class="admin-badge admin-badge-danger">Tạm ngưng</span>
+                        <% } %>
+                      </td>
+                      <td>
+                        <div class="admin-table-actions">
+                          <a href="/admin/cinemas/<%= cinema.id %>" class="admin-btn admin-btn-sm admin-btn-outline">Chi tiết</a>
+                          <a href="/admin/cinemas/<%= cinema.id %>/edit" class="admin-btn admin-btn-sm admin-btn-outline">Sửa</a>
+
+                          <form action="/admin/cinemas/<%= cinema.id %>/delete" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa rạp này?')">
+                            <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Xóa</button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="8" class="admin-empty">Chưa có rạp nào</td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

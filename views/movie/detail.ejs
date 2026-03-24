@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= movie ? movie.title : title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/movie-detail.css" />
+</head>
+<body class="page-movie-detail">
+  <%- include("../partials/header") %>
+
+  <main class="movie-detail-page">
+    <% if (movie) { %>
+      <section class="movie-detail-hero">
+        <div class="movie-detail-hero-backdrop">
+          <img
+            src="<%= movie.banner || movie.poster || '/images/movies/default.jpg' %>"
+            alt="<%= movie.title %>"
+          />
+        </div>
+        <div class="movie-detail-hero-overlay"></div>
+      </section>
+
+      <section class="movie-detail-content-wrap">
+        <div class="container">
+          <div class="movie-detail-layout">
+            <div class="movie-detail-poster-col">
+              <div class="movie-detail-poster-card">
+                <img
+                  src="<%= movie.poster || '/images/movies/default.jpg' %>"
+                  alt="<%= movie.title %>"
+                  class="movie-detail-poster"
+                />
+              </div>
+            </div>
+
+            <div class="movie-detail-info-col">
+              <h1 class="movie-detail-title"><%= movie.title %></h1>
+
+              <div class="movie-detail-meta-top">
+                <span class="movie-age-badge"><%= movie.ageRating || "T16" %></span>
+                <span class="movie-duration"><%= movie.duration || 100 %> phút</span>
+              </div>
+
+              <div class="movie-detail-status">
+                <span class="status-icon">★</span>
+                <span><%= movie.statusText || "Đang cập nhật" %></span>
+              </div>
+
+              <div class="movie-detail-info-list">
+                <p><strong>Ngôn ngữ:</strong> <%= movie.language || "Tiếng Anh - Phụ đề Tiếng Việt" %></p>
+                <p><strong>Thể loại:</strong> <%= movie.genre || "Gia đình, Hành động, Tâm lý" %></p>
+                <p><strong>Đạo diễn:</strong> <%= movie.director || "Đang cập nhật" %></p>
+                <p><strong>Diễn viên:</strong> <%= movie.cast || "Đang cập nhật" %></p>
+                <p><strong>Khởi chiếu:</strong> <%= movie.releaseDate || "Đang cập nhật" %></p>
+              </div>
+
+              <% if (movie.description) { %>
+                <div class="movie-detail-description">
+                  <h3>Nội dung phim</h3>
+                  <p><%= movie.description %></p>
+                </div>
+              <% } %>
+
+              <div class="movie-detail-actions">
+                <% if (movie.status === "now_showing") { %>
+                  <a href="/booking/showtime/<%= movie._id %>" class="btn btn-primary">Đặt vé ngay</a>
+                <% } else { %>
+                  <button class="btn btn-disabled" type="button">Sắp mở bán</button>
+                <% } %>
+
+                <a href="/movie" class="btn btn-outline">Quay lại</a>
+              </div>
+
+              <div class="movie-schedule-block">
+                <h3>| Lịch chiếu</h3>
+
+                <div class="movie-schedule-filters">
+                  <div class="movie-schedule-dates">
+                    <% if (dateOptions && dateOptions.length > 0) { %>
+                      <% dateOptions.forEach(item => { %>
+                        <button class="schedule-date-btn <%= item.active ? 'active' : '' %>" type="button">
+                          <span class="date-label"><%= item.label %></span>
+                          <span class="date-value"><%= item.date %></span>
+                        </button>
+                      <% }) %>
+                    <% } %>
+                  </div>
+
+                  <div class="movie-schedule-selects">
+                    <select>
+                      <option>Toàn quốc</option>
+                    </select>
+                    <select>
+                      <option>Tất cả rạp</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="movie-schedule-list">
+                  <% if (showtimes && showtimes.length > 0) { %>
+                    <% showtimes.forEach(item => { %>
+                      <div class="schedule-cinema-card">
+                        <h4><%= item.cinema %></h4>
+                        <div class="schedule-row">
+                          <span class="schedule-format"><%= item.format %></span>
+
+                          <div class="schedule-times">
+                            <% item.times.forEach(time => { %>
+                              <a
+                                href="/booking/showtime/<%= movie._id %>?time=<%= time %>"
+                                class="schedule-time-btn"
+                              >
+                                <%= time %>
+                              </a>
+                            <% }) %>
+                          </div>
+                        </div>
+                      </div>
+                    <% }) %>
+                  <% } else { %>
+                    <p class="empty-text">Hiện chưa có lịch chiếu.</p>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+
+            <aside class="movie-detail-sidebar">
+              <h2>Phim đang chiếu</h2>
+
+              <div class="sidebar-movie-list">
+                <% if (nowShowing && nowShowing.length > 0) { %>
+                  <% nowShowing.forEach(item => { %>
+                    <a href="/movie/<%= item._id %>" class="sidebar-movie-card">
+                      <div class="sidebar-movie-thumb">
+                        <img
+                          src="<%= item.poster || '/images/movies/default.jpg' %>"
+                          alt="<%= item.title %>"
+                        />
+                        <span class="sidebar-age"><%= item.ageRating || "T16" %></span>
+                      </div>
+                    </a>
+                  <% }) %>
+                <% } else { %>
+                  <p class="empty-text">Chưa có phim đang chiếu.</p>
+                <% } %>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    <% } else { %>
+      <section class="movie-detail-empty">
+        <div class="container">
+          <h1>Không tìm thấy phim</h1>
+          <p>Phim bạn đang tìm có thể đã bị xóa hoặc chưa tồn tại.</p>
+          <a href="/movies" class="btn btn-primary">Quay lại danh sách phim</a>
+        </div>
+      </section>
+    <% } %>
+  </main>
+
+  <%- include("../partials/footer") %>
+    <script src="/js/movie.js"></script>
+
+</body>
+</html>

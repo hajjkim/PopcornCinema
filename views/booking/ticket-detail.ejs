@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> - <%= movie.title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/booking.css" />
+</head>
+<body class="page-booking page-booking-success">
+  <%- include("../partials/header") %>
+
+  <main class="booking-page">
+    <div class="container">
+      <div class="ticket-success-layout">
+        <section class="ticket-success-main">
+          <div class="ticket-success-card">
+            <div class="ticket-success-header">
+              <div class="ticket-success-icon">✓</div>
+              <div>
+                <h1>Thanh toán thành công</h1>
+                <p>Vé của bạn đã được xác nhận. Vui lòng lưu lại thông tin bên dưới để sử dụng khi đến rạp.</p>
+              </div>
+            </div>
+
+            <div class="ticket-detail-grid">
+              <div class="ticket-detail-item">
+                <span>Mã đơn hàng</span>
+                <strong><%= ticketInfo.orderCode %></strong>
+              </div>
+
+              <div class="ticket-detail-item">
+                <span>Mã vé</span>
+                <strong><%= ticketInfo.ticketCode %></strong>
+              </div>
+
+              <div class="ticket-detail-item">
+                <span>Rạp</span>
+                <strong><%= ticketInfo.cinema %></strong>
+              </div>
+
+              <div class="ticket-detail-item">
+                <span>Phòng</span>
+                <strong><%= ticketInfo.room %></strong>
+              </div>
+
+              <div class="ticket-detail-item">
+                <span>Suất chiếu</span>
+                <strong><%= ticketInfo.showtime %></strong>
+              </div>
+
+              <div class="ticket-detail-item">
+                <span>Ghế</span>
+                <strong><%= ticketInfo.seats.join(", ") %></strong>
+              </div>
+
+              <div class="ticket-detail-item">
+                <span>Tổng thanh toán</span>
+                <strong><%= ticketInfo.total.toLocaleString("vi-VN") %> đ</strong>
+              </div>
+
+              <div class="ticket-detail-item">
+                <span>Trạng thái</span>
+                <strong class="success-text">Đã thanh toán</strong>
+              </div>
+            </div>
+
+            <div class="ticket-note-box">
+              <h3>Lưu ý</h3>
+              <ul>
+                <li>Vui lòng đến rạp trước giờ chiếu ít nhất 15 phút.</li>
+                <li>Xuất trình mã vé hoặc mã QR tại quầy/kiosk để nhận vé vào rạp.</li>
+                <li>Không hoàn hủy vé sau khi giao dịch đã xác nhận thành công.</li>
+              </ul>
+            </div>
+
+            <div class="ticket-success-actions">
+              <a href="/" class="btn btn-outline">Về trang chủ</a>
+              <a href="/movie" class="btn btn-primary">Xem thêm phim</a>
+            </div>
+          </div>
+        </section>
+
+        <aside class="ticket-success-sidebar">
+          <div class="ticket-sidebar-card">
+            <div class="ticket-movie-box">
+              <img src="<%= movie.poster %>" alt="<%= movie.title %>" />
+              <div class="ticket-movie-info">
+                <h3><%= movie.title %></h3>
+                <p><%= movie.ageRating %> · <%= movie.duration %> phút</p>
+              </div>
+            </div>
+
+            <!-- <div class="ticket-qr-box">
+              <img src="<%= ticketInfo.qrImage %>" alt="QR vé" class="ticket-qr-image" />
+              <p>Quét mã này tại rạp để kiểm tra vé</p>
+            </div> -->
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <%- include("../partials/footer") %>
+</body>
+</html>

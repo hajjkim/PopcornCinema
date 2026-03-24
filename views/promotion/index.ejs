@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/promotion.css" />
+</head>
+<body class="page-promotion">
+  <%- include("../partials/header") %>
+
+  <main class="promotion-page">
+    <div class="container">
+      <section class="promotion-layout">
+        <div class="promotion-left">
+  <div class="section-title">
+    <h2>ƯU ĐÃI</h2>
+  </div>
+
+  <div class="promotion-grid">
+    <% promotions.forEach(item => { %>
+            <a href="/promotion/<%= item.slug || item._id %>" class="promo-card">
+            <img src="<%= item.image %>" alt="<%= item.title %>" class="promo-img" />
+      </a>
+    <% }) %>
+  </div>
+</div>
+
+        <div class="promotion-right">
+          <div class="section-title">
+            <h2>PHIM ĐANG CHIẾU</h2>
+          </div>
+
+          <div class="side-movie-list">
+            <% if (nowShowing && nowShowing.length > 0) { %>
+              <% nowShowing.slice(0, 3).forEach(movie => { %>
+                <a href="/movie/<%= movie._id %>" class="side-movie-card">
+                  <img
+                    src="<%= movie.banner || movie.poster || '/images/movies/default.jpg' %>"
+                    alt="<%= movie.title %>"
+                    class="side-movie-img"
+                  />
+                </a>
+              <% }) %>
+            <% } else { %>
+              <p class="empty-text">Chưa có phim đang chiếu.</p>
+            <% } %>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <%- include("../partials/footer") %>
+</body>
+</html>

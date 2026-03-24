@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> - <%= movie.title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/booking.css" />
+</head>
+<body class="page-booking">
+  <%- include("../partials/header") %>
+
+  <main class="booking-page">
+    <div class="container">
+      <div class="booking-seat-layout">
+        <section class="seat-panel">
+          <div class="seat-panel-top">
+            <h1>Chọn ghế</h1>
+          </div>
+
+          <div class="booking-toolbar">
+            <div class="booking-toolbar-group">
+              <label>Chọn rạp</label>
+              <div class="booking-chip-list" id="cinemaList">
+                <% cinemas.forEach(cinema => { %>
+                  <button
+                    type="button"
+                    class="booking-chip <%= cinema.active ? 'active' : '' %>"
+                    data-cinema="<%= cinema.name %>"
+                  >
+                    <%= cinema.name %>
+                  </button>
+                <% }) %>
+              </div>
+            </div>
+
+            <div class="booking-toolbar-group">
+              <label>Chọn suất chiếu</label>
+              <div class="booking-time-list" id="showtimeList">
+                <% showtimes.forEach(showtime => { %>
+                  <button
+                    type="button"
+                    class="booking-time <%= showtime.active ? 'active' : '' %>"
+                    data-time="<%= showtime.value %>"
+                  >
+                    <%= showtime.value %>
+                  </button>
+                <% }) %>
+              </div>
+            </div>
+          </div>
+
+          <div class="screen-wrapper">
+            <div class="screen-bar">Màn hình</div>
+          </div>
+
+          <div class="seat-map-rows" id="seatMap">
+            <% seatLayout.forEach(rowItem => { %>
+              <div class="seat-row-block">
+                <div class="seat-row-label"><%= rowItem.row %></div>
+
+                <% if (rowItem.row !== "J") { %>
+                  <div class="seat-row-grid standard-grid">
+                    <% rowItem.seats.forEach((seat, index) => { %>
+                      <% if (index === 7) { %>
+                        <div class="seat-aisle"></div>
+                      <% } %>
+
+                      <button
+                        type="button"
+                        class="seat-item seat-<%= seat.type %> <%= seat.status === 'booked' ? 'booked' : '' %>"
+                        data-seat="<%= seat.code %>"
+                        data-price="<%= seat.type === 'standard' ? 75000 : 90000 %>"
+                        <%= seat.status === 'booked' ? 'disabled' : '' %>
+                      >
+                        <%= seat.label %>
+                      </button>
+                    <% }) %>
+                  </div>
+                <% } else { %>
+                  <div class="seat-row-grid couple-grid">
+                    <% rowItem.seats.forEach(seat => { %>
+                      <button
+                        type="button"
+                        class="seat-item seat-couple <%= seat.status === 'booked' ? 'booked' : '' %>"
+                        data-seat="<%= seat.code %>"
+                        data-price="160000"
+                        <%= seat.status === 'booked' ? 'disabled' : '' %>
+                      >
+                        <%= seat.label %>
+                      </button>
+                    <% }) %>
+                  </div>
+                <% } %>
+              </div>
+            <% }) %>
+          </div>
+
+          <div class="seat-legend">
+            <div class="legend-item">
+              <span class="legend-box legend-available"></span>
+              <span>Ghế có sẵn</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-box legend-selected"></span>
+              <span>Ghế đang chọn</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-box legend-booked"></span>
+              <span>Ghế đã bán</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-box legend-couple"></span>
+              <span>Ghế đôi VIP</span>
+            </div>
+          </div>
+        </section>
+
+        <aside class="booking-summary-panel">
+          <div class="summary-movie">
+            <img src="<%= movie.poster %>" alt="<%= movie.title %>" />
+            <div>
+              <h3><%= movie.title %></h3>
+              <p><%= movie.ageRating %> - <%= movie.duration %> phút</p>
+            </div>
+          </div>
+
+          <div class="summary-line">
+            <span>Rạp</span>
+            <strong id="selectedCinema">
+              <%= cinemas.find(item => item.active)?.name || "Chưa chọn" %>
+            </strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Suất chiếu</span>
+            <strong id="selectedShowtime">
+              <%= showtimes.find(item => item.active)?.value || "Chưa chọn" %>
+            </strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Ghế đã chọn</span>
+            <strong id="selectedSeats">Chưa chọn</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Số lượng</span>
+            <strong id="selectedCount">0</strong>
+          </div>
+
+          <div class="summary-line total">
+            <span>Tổng tiền</span>
+            <strong id="selectedTotal">0đ</strong>
+          </div>
+
+          <a
+            href="/booking/snacks/<%= movie._id %>"
+            class="btn btn-primary booking-next-btn"
+            id="goToSnackPage"
+          >
+            Tiếp tục
+          </a>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <%- include("../partials/footer") %>
+  <script src="/js/booking.js"></script>
+</body>
+</html>

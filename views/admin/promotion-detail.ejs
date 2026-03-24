@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include("../partials/admin-sidebar", { currentPage: "promotions" }) %>
+
+    <main class="admin-content">
+      <%- include("../partials/admin-topbar", {
+        pageTitle: "Chi tiết khuyến mãi",
+        pageDescription: "Thông tin đầy đủ của chương trình khuyến mãi",
+        adminName: sessionUser ? sessionUser.fullName : "Admin"
+      }) %>
+
+      <section class="admin-page-section">
+        <div class="admin-card">
+          <div class="promotion-detail-layout">
+            <div class="promotion-detail-poster-wrap">
+              <img src="<%= promotion.poster %>" alt="<%= promotion.title %>" class="promotion-detail-poster" />
+            </div>
+
+            <div class="cinema-detail-grid">
+              <div class="cinema-detail-item">
+                <div class="cinema-detail-label">ID</div>
+                <div class="cinema-detail-value"><%= promotion.id %></div>
+              </div>
+
+              <div class="cinema-detail-item">
+                <div class="cinema-detail-label">Tên khuyến mãi</div>
+                <div class="cinema-detail-value"><%= promotion.title %></div>
+              </div>
+
+              <div class="cinema-detail-item">
+                <div class="cinema-detail-label">Mã</div>
+                <div class="cinema-detail-value"><%= promotion.code %></div>
+              </div>
+
+              <div class="cinema-detail-item">
+                <div class="cinema-detail-label">Loại giảm</div>
+                <div class="cinema-detail-value">
+                  <%= promotion.discountType === "PERCENT" ? "Phần trăm" : "Tiền mặt" %>
+                </div>
+              </div>
+
+              <div class="cinema-detail-item">
+                <div class="cinema-detail-label">Giá trị giảm</div>
+                <div class="cinema-detail-value">
+                  <%= promotion.discountType === "PERCENT"
+                    ? promotion.discountValue + "%"
+                    : Number(promotion.discountValue).toLocaleString("vi-VN") + "đ" %>
+                </div>
+              </div>
+
+              <div class="cinema-detail-item">
+                <div class="cinema-detail-label">Đơn tối thiểu</div>
+                <div class="cinema-detail-value"><%= Number(promotion.minOrderValue).toLocaleString("vi-VN") %>đ</div>
+              </div>
+
+              <div class="cinema-detail-item">
+                <div class="cinema-detail-label">Giảm tối đa</div>
+                <div class="cinema-detail-value"><%= Number(promotion.maxDiscountValue).toLocaleString("vi-VN") %>đ</div>
+              </div>
+
+              <div class="cinema-detail-item">
+                <div class="cinema-detail-label">Ngày bắt đầu</div>
+                <div class="cinema-detail-value"><%= promotion.startDate %></div>
+              </div>
+
+              <div class="cinema-detail-item">
+                <div class="cinema-detail-label">Ngày kết thúc</div>
+                <div class="cinema-detail-value"><%= promotion.endDate %></div>
+              </div>
+
+              <div class="cinema-detail-item">
+                <div class="cinema-detail-label">Trạng thái</div>
+                <div class="cinema-detail-value"><%= promotion.status %></div>
+              </div>
+
+              <div class="cinema-detail-item cinema-detail-item-full">
+                <div class="cinema-detail-label">Mô tả</div>
+                <div class="cinema-detail-value"><%= promotion.description || '' %></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-detail-actions">
+            <a href="/admin/promotions/<%= promotion.id %>/edit" class="admin-btn admin-btn-primary">Sửa</a>
+            <a href="/admin/promotions" class="admin-btn admin-btn-outline">Quay lại</a>
+            <form action="/admin/promotions/<%= promotion.id %>/delete" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa khuyến mãi này?')">
+              <button type="submit" class="admin-btn admin-btn-danger">Xóa</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

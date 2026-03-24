@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/movie.css" />
+</head>
+<body class="page-movie">
+  <%- include("../partials/header") %>
+
+  <main class="movie-page">
+    <div class="container">
+      <section class="movie-topbar">
+        <div class="movie-tabs">
+          <button class="movie-tab active" data-filter="all">PHIM</button>
+          <button class="movie-tab" data-filter="now_showing">Đang Chiếu</button>
+          <button class="movie-tab" data-filter="coming_soon">Sắp Chiếu</button>
+        </div>
+      </section>
+
+      <section class="movie-list-section">
+       <div class="movie-list-grid" id="movieGrid">
+        <% movies.forEach(movie => { %>
+          <a href="/movie/<%= movie._id %>" class="movie-poster-card" data-status="<%= movie.status %>">
+            <img
+              src="<%= movie.poster %>"
+              alt="<%= movie.title %>"
+              class="movie-poster-img"
+            />
+
+            <div class="movie-card-overlay">
+              <div class="movie-card-content">
+                <h3><%= movie.title %></h3>
+
+                <% if (movie.status === "now_showing") { %>
+                  <span class="movie-action-btn">Đặt vé</span>
+                <% } else { %>
+                  <span class="movie-action-btn is-coming">Sắp chiếu</span>
+                <% } %>
+              </div>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+      </section>
+    </div>
+  </main>
+
+  <%- include("../partials/footer") %>
+  <script src="/js/movie.js"></script>
+</body>
+</html>

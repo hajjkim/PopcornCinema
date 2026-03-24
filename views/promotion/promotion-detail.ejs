@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/promotion-detail.css" />
+</head>
+<body class="page-promotion-detail">
+  <%- include("../partials/header") %>
+
+  <main class="promotion-detail-page">
+    <div class="container">
+      <% if (promotion) { %>
+        <div class="breadcrumb">
+          <a href="/">Trang chủ</a>
+          <span>/</span>
+          <a href="/promotion">Ưu đãi</a>
+          <span>/</span>
+          <span><%= promotion.title %></span>
+        </div>
+
+        <section class="promotion-detail-main">
+          <div class="promotion-detail-media">
+            <div class="promotion-poster-card">
+              <img
+                src="<%= promotion.image %>"
+                alt="<%= promotion.title %>"
+                class="promotion-detail-image"
+              />
+            </div>
+          </div>
+
+          <div class="promotion-detail-content">
+            <span class="promotion-badge">Ưu đãi nổi bật</span>
+            <h1 class="promotion-title"><%= promotion.title %></h1>
+
+            <p class="promotion-description">
+              <%= promotion.description %>
+            </p>
+
+            <div class="promotion-meta">
+              <div class="promotion-meta-item">
+                <span class="meta-label">Thời gian áp dụng</span>
+                <strong><%= promotion.validFrom %> - <%= promotion.validTo %></strong>
+              </div>
+
+              <div class="promotion-meta-item">
+                <span class="meta-label">Hình thức</span>
+                <strong>Áp dụng tại rạp và online</strong>
+              </div>
+            </div>
+
+            <div class="promotion-cta">
+              <a href="/movie" class="btn btn-primary">Đặt vé ngay</a>
+              <a href="/promotion" class="btn btn-outline">Quay lại ưu đãi</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="promotion-detail-section">
+          <h2>Chi tiết chương trình</h2>
+
+          <div class="promotion-content-box">
+            <% if (promotion.content && promotion.content.length > 0) { %>
+              <% promotion.content.forEach(item => { %>
+                <p><%= item %></p>
+              <% }) %>
+            <% } else { %>
+              <p>
+                Chương trình ưu đãi đang được áp dụng tại hệ thống Popcorn Cinema.
+                Vui lòng theo dõi thông tin tại quầy hoặc liên hệ rạp để biết thêm chi tiết.
+              </p>
+            <% } %>
+          </div>
+        </section>
+
+        <section class="promotion-detail-section">
+          <h2>Điều kiện áp dụng</h2>
+
+          <div class="promotion-rule-list">
+            <div class="promotion-rule-item">Áp dụng trong thời gian chương trình còn hiệu lực.</div>
+            <div class="promotion-rule-item">Không quy đổi thành tiền mặt.</div>
+            <div class="promotion-rule-item">Không áp dụng đồng thời với một số ưu đãi khác.</div>
+            <div class="promotion-rule-item">Popcorn Cinema có quyền điều chỉnh thể lệ khi cần thiết.</div>
+          </div>
+        </section>
+
+        <% if (relatedPromotions && relatedPromotions.length > 0) { %>
+          <section class="promotion-detail-section">
+            <div class="section-header">
+              <h2>Ưu đãi khác</h2>
+              <a href="/promotion">Xem tất cả</a>
+            </div>
+
+            <div class="related-promotion-grid">
+              <% relatedPromotions.forEach(item => { %>
+                <a href="/promotion/<%= item._id %>" class="related-promo-card">
+                  <img
+                    src="<%= item.image %>"
+                    alt="<%= item.title %>"
+                    class="related-promo-img"
+                  />
+                  <div class="related-promo-info">
+                    <h3><%= item.title %></h3>
+                  </div>
+                </a>
+              <% }) %>
+            </div>
+          </section>
+        <% } %>
+      <% } else { %>
+        <section class="promotion-not-found">
+          <h1>Không tìm thấy ưu đãi</h1>
+          <p>Ưu đãi bạn đang tìm có thể đã bị xóa hoặc chưa tồn tại.</p>
+          <a href="/promotion" class="btn btn-primary">Quay lại trang ưu đãi</a>
+        </section>
+      <% } %>
+    </div>
+  </main>
+
+  <%- include("../partials/footer") %>
+</body>
+</html>
